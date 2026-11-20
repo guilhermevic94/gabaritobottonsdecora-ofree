@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Gabarito Botton Coração</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#e9ecef;--panel:#fff;--panel2:#f3f5f9;--line:#e3e8ef;--line2:#cfd7e3;--txt:#1a2233;--mut:#66758d;--acc:#2563eb;--acc2:#1d4ed8;--soft:#eaf1ff;--glass:rgba(255,255,255,.92);--ok:#16a34a;--warn:#d97706;--err:#dc2626;--info:#2563eb}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1b2029;--panel:#232a36;--panel2:#2b3341;--line:#323b4b;--line2:#44506a;--txt:#e8edf5;--mut:#9aa8bf;--soft:#223455;--glass:rgba(35,42,54,.92)}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#1b2029;--panel:#232a36;--panel2:#2b3341;--line:#323b4b;--line2:#44506a;--txt:#e8edf5;--mut:#9aa8bf;--soft:#223455;--glass:rgba(35,42,54,.92)}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--txt);font:13.5px/1.45 "Segoe UI",system-ui,sans-serif;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
+button,input{font:inherit;color:inherit}button{cursor:pointer}[hidden]{display:none!important}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#app{display:flex;height:100%}
+#stage{flex:1;position:relative;min-width:0;overflow:auto;display:grid}
+#board{width:calc(100% * var(--z,1));height:calc(100% * var(--z,1));min-width:0;min-height:0;display:block;touch-action:none;cursor:grab;margin:auto}
+#board.drag{cursor:grabbing}
+.pill{position:fixed;z-index:5;display:flex;align-items:center;gap:2px;padding:5px;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;box-shadow:0 4px 18px #1a22331a}
+.pill button{display:flex;align-items:center;gap:7px;background:transparent;border:0;border-radius:999px;padding:8px 13px}
+.pill button:hover{background:var(--panel2)}.pill button.primary{background:var(--acc);color:#fff;font-weight:600;padding:8px 18px}.pill button.primary:hover{background:var(--acc2)}
+.sep{width:1px;height:20px;background:var(--line2);margin:0 2px}
+#pillA{top:calc(16px + env(safe-area-inset-top,0px));left:16px}
+#pillZ{bottom:16px;left:16px;padding:5px 14px;gap:10px;color:var(--mut)}
+#pillZ input{width:110px}
+#legend{bottom:16px;left:50%;transform:translateX(-50%);padding:6px 14px;gap:14px}
+#legend label{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12.5px;white-space:nowrap}
+#legend i{width:16px;height:0;border-top:3px dashed;display:block}
+#panel{width:350px;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;background:none;border:0;padding:13px 0;color:var(--mut);font-weight:600;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--acc);border-color:var(--acc)}
+.pg{flex:1;overflow:auto;padding:16px}
+h3{margin:0 0 8px;font-size:13.5px}h4{margin:16px 0 4px;font-size:13px}
+.lbl{color:var(--mut);font-size:12.5px}
+.field{margin:0 0 14px}.field .row{display:flex;justify-content:space-between;margin-bottom:4px}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.btnrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.soft{display:flex;align-items:center;gap:6px;background:var(--soft);color:var(--acc);border:0;border-radius:9px;padding:8px 11px;font-weight:600;font-size:12.5px}
+.soft:hover{filter:brightness(.96)}.soft:disabled{opacity:.45;cursor:default}
+.al{display:flex;gap:10px;padding:10px 11px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:var(--panel2)}
+.al b{display:block;font-size:13px}.al span{color:var(--mut);font-size:12.5px}
+.al .d{width:10px;height:10px;border-radius:50%;margin-top:5px;flex:none}
+.al.ok .d{background:var(--ok)}.al.warn .d{background:var(--warn)}.al.err .d{background:var(--err)}.al.info .d{background:var(--info)}
+.al.err{border-color:#dc262655}.al.warn{border-color:#d9770655}
+.bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--ok);width:0}
+#sum{padding:10px 12px;border-radius:10px;font-weight:600;margin-bottom:12px;background:var(--soft);color:var(--acc)}
+#sum.ok{background:#16a34a22;color:var(--ok)}#sum.err{background:#dc262622;color:var(--err)}#sum.warn{background:#d9770622;color:var(--warn)}
+.tut p,.tut li{color:var(--txt)}.tut ol,.tut ul{padding-left:18px;margin:6px 0}.tut li{margin-bottom:5px}
+.sw{display:inline-block;width:14px;border-top:3px dashed;vertical-align:middle;margin-right:6px}
+kbd{background:var(--panel2);border:1px solid var(--line2);border-radius:4px;padding:0 5px;font-size:12px}
+#toast{position:fixed;left:50%;bottom:72px;transform:translateX(-50%);background:#1a2233;color:#fff;padding:9px 16px;border-radius:10px;z-index:9;opacity:0;transition:opacity .25s;pointer-events:none}
+#toast.on{opacity:1}
+@media(max-width:860px){#app{flex-direction:column}#panel{width:100%;height:46%;border-left:0;border-top:1px solid var(--line)}#legend{display:none}}
+
+.hero{display:flex;gap:14px;align-items:center;background:var(--soft);border-radius:16px;padding:14px;margin-bottom:16px}
+.hero p{margin:0;color:var(--txt)}.hero b{font-size:15px;display:block;margin-bottom:3px}
+#mini{width:112px;flex:none;overflow:visible;filter:drop-shadow(0 3px 8px #1a223330)}
+.tut h3{display:flex;align-items:center;gap:8px;margin:20px 0 10px;font-size:14px}
+.step{display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel2);margin-bottom:8px}
+.step .n{width:28px;height:28px;border-radius:50%;background:var(--acc);color:#fff;font-weight:700;display:grid;place-items:center;flex:none;font-size:13px}
+.step p{margin:0 0 8px}.step .soft{padding:7px 12px}
+.line{display:block;width:100%;text-align:left;border:1px solid var(--line);border-left:6px solid var(--c);background:var(--panel2);border-radius:12px;padding:10px 12px;margin-bottom:7px;transition:transform .15s,background .15s}
+.line:hover{transform:translateX(2px)}.line.on{background:var(--soft);border-color:var(--c)}
+.line b{display:block}.line span{color:var(--mut);font-size:12.5px}
+.tips{display:grid;gap:7px}.tip{display:flex;gap:10px;padding:10px 12px;border-radius:12px;background:var(--panel2);border:1px solid var(--line)}
+.tip i{width:8px;height:8px;border-radius:50%;background:var(--acc);margin-top:7px;flex:none}
+.keys{display:grid;grid-template-columns:1fr 1fr;gap:7px}.keys div{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-size:12.5px}
+.note{margin-top:14px;padding:10px 12px;border-radius:12px;background:#d9770618;color:var(--txt);font-size:12.5px}
+
+body[data-mode=print] .ed{display:none!important}body[data-mode=edit] .pr{display:none!important}
+.pill button.on{background:var(--soft);color:var(--acc);font-weight:600}
+.bd{background:var(--acc);color:#fff;border-radius:999px;padding:0 7px;font-size:11.5px;min-width:18px;text-align:center}
+#sheets{display:flex;flex-direction:column;align-items:center;gap:26px;padding:76px 24px 90px;margin:0 auto}
+.lab{font-size:12.5px;color:var(--mut);margin-bottom:6px;width:calc(var(--pw,460)*1px)}
+.sheet{background:#fff;box-shadow:0 6px 28px #1a223333;width:calc(var(--pw,460)*1px);height:auto;display:block}
+.slot{cursor:pointer}.slot .ph{fill:#eef1f6;stroke:#c3ccda;stroke-width:1.1;stroke-dasharray:4 3}
+.slot .ring{fill:none;stroke:transparent;stroke-width:2}.slot.full:hover .ring{stroke:#2563eb66}.slot.sel .ring{stroke:#2563eb;stroke-dasharray:5 3}
+.ctl{opacity:0}.slot.full:hover .ctl,.slot.sel .ctl{opacity:1}@media(hover:none){.ctl{opacity:1}}
+.ctl circle{fill:#1a2233}.ctl path{stroke:#fff;stroke-width:2;stroke-linecap:round}
+.new .in{transform-box:fill-box;transform-origin:center;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.new .in{animation:none}}
+.pc{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--panel2);margin-bottom:8px}
+.pc img{width:56px;height:52px;object-fit:contain;flex:none;border-radius:8px;background:repeating-conic-gradient(#e4e8ef 0 25%,#fff 0 50%) 0/10px 10px}
+.pi{flex:1;min-width:0}.nm{width:100%;border:0;background:transparent;font-weight:600;padding:2px 4px;margin-left:-4px;border-radius:6px}.nm:hover,.nm:focus{background:var(--panel)}
+.cp,.stp{display:flex;align-items:center;gap:8px}.cp b,.stp b{min-width:20px;text-align:center}
+.cp button,.stp button{width:28px;height:28px;border-radius:50%;border:1px solid var(--line2);background:var(--panel);font-size:16px;line-height:1}.cp button:disabled{opacity:.4}
+.pb{display:flex;flex-direction:column;gap:4px}.pb button{border:0;background:transparent;border-radius:8px;padding:6px;color:var(--mut)}.pb button:hover{background:var(--soft);color:var(--acc)}
+.foot{border-top:1px solid var(--line);padding:12px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--panel)}
+.btn{flex:1;background:var(--acc);color:#fff;border:0;border-radius:11px;padding:11px 14px;font-weight:600}.btn:hover{background:var(--acc2)}.btn:disabled{opacity:.45;cursor:default}
+.lnk{background:none;border:0;color:var(--acc);font-weight:600;padding:2px 0;width:100%}
+.empty{text-align:center;color:var(--mut);padding:22px 8px}
+.chips{display:flex;gap:6px;margin-bottom:14px}.chips button{flex:1;border:1px solid var(--line2);background:var(--panel);border-radius:10px;padding:9px 6px;font-weight:600}
+.chips button.on{background:var(--soft);color:var(--acc);border-color:var(--acc)}.chips button:disabled{opacity:.45;cursor:not-allowed}
+select{width:100%;padding:9px 10px;border-radius:10px;border:1px solid var(--line2);background:var(--panel);color:var(--txt)}select:disabled{opacity:.5}
+.field label{display:block;margin-bottom:4px}
+.chk{display:flex;gap:8px;align-items:center;margin:0 0 12px;cursor:pointer}
+.tog{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px;margin:0 0 12px;border:1.5px solid var(--line2);border-radius:14px;background:var(--panel);transition:border-color .15s,background .15s}
+.tog svg{width:34px;height:34px;flex:none;fill:currentColor;stroke:currentColor;color:var(--mut)}.tog b{display:block;font-size:13.5px}.tog small{display:block;color:var(--mut);font-size:12px;line-height:1.35;margin-top:1px}
+.tog em{margin-left:auto;font-style:normal;font-weight:700;font-size:12px;padding:4px 10px;border-radius:999px;background:var(--panel2);color:var(--mut);flex:none}
+.tog.on{border-color:var(--acc);background:var(--soft)}.tog.on svg{color:var(--acc)}.tog.on em{background:var(--acc);color:#fff}.tog:disabled{opacity:.55;cursor:not-allowed}
+.modal{position:fixed;inset:0;z-index:8;background:#0a0f1a99;display:grid;place-items:center;padding:16px}
+.mbox{background:var(--panel);border:1px solid var(--line);border-radius:18px;width:min(460px,100%);max-height:100%;display:flex;flex-direction:column;box-shadow:0 20px 60px #0006}
+.mhead{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);font-size:15px}
+.mhead button{border:0;background:transparent;font-size:22px;line-height:1;color:var(--mut);border-radius:8px;padding:2px 9px}.mhead button:hover{background:var(--panel2)}
+.mbody{padding:16px 18px 6px;overflow:auto}.mbody h3{margin-top:0}.mfoot{padding:12px 18px;border-top:1px solid var(--line)}.mfoot .btn{width:100%}
+body[data-cut=man] .so{display:none!important}body[data-cut=sil] .mo{display:none!important}
+#home{z-index:20;background:var(--bg)}.hbox{text-align:center;max-width:720px;width:100%}.hbox h1{margin:0 0 6px;font-size:26px}.hbox p{margin:0;color:var(--mut)}
+.hcards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.hcard{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;transition:transform .15s,border-color .15s}
+.hcard:hover{transform:translateY(-3px);border-color:var(--acc)}.hcard svg{width:120px;height:108px}.hcard b{font-size:16px}.hcard span{color:var(--mut);font-size:13px}
+@media(max-width:600px){.hcards{grid-template-columns:1fr}}
+.tip2{position:fixed;z-index:9;max-width:260px;background:var(--panel);color:var(--txt);border:1px solid var(--line);border-left:5px solid var(--c,#999);border-radius:12px;padding:10px 12px;box-shadow:0 8px 28px #0004;pointer-events:none;font-size:12.5px;transform:translate(-50%,-100%)}
+.tip2 b{display:block;margin-bottom:2px;font-size:13px}
+#guides path{transition:opacity .15s,stroke-width .15s}
+.hfoot{position:absolute;left:0;right:0;bottom:22px;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 16px;text-align:center}.hfoot p{margin:0;color:var(--mut);font-size:13px}
+.dlbtn{display:inline-flex;align-items:center;gap:8px;background:var(--acc);color:#fff;text-decoration:none;font-weight:600;font-size:13px;padding:9px 15px;border-radius:11px}.dlbtn:hover{background:var(--acc2)}.dlbtn svg{width:16px;height:16px}
+.comm{margin-top:16px;padding:14px;border-radius:14px;background:var(--soft)}.comm b{display:block;margin-bottom:2px}.comm p{margin:0 0 10px;color:var(--mut);font-size:12.5px}
+a.tog{text-decoration:none;color:var(--txt)}a.tog:hover{border-color:var(--acc)}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes sheet{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+.hbox h1,.hbox p,.hcard{animation:rise .5s both}.hbox p{animation-delay:.04s}.hcard{animation-delay:.1s}.hcard:nth-child(2){animation-delay:.18s}.hfoot{animation:fade .6s .3s both}
+.hcard svg{transition:transform .25s}.hcard:hover svg{transform:scale(1.07) rotate(-2deg)}
+.modal:not([hidden]){animation:fade .2s}.mbox{animation:sheet .25s}
+.pg:not([hidden]){animation:fade .25s}
+body[data-mode=print] #sheets,body[data-mode=edit] #board{animation:fade .35s}
+.pill{animation:fade .4s}.tip2{animation:fade .12s}
+.soft,.btn,.pill button,.chips button,.cp button,.stp button,.dlbtn{transition:transform .12s,background-color .15s,filter .15s,border-color .15s}
+.soft:active,.btn:active,.pill button:active,.chips button:active,.cp button:active,.stp button:active,.dlbtn:active{transform:scale(.96)}
+body,#panel,#panelP,.pill,.pc,.step,.tip,.al,select,.mbox,.tog{transition:background-color .25s,color .25s,border-color .25s}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style></head><body>
+<div id="app">
+<main id="stage">
+<svg id="board" class="ed" viewBox="-12 -12 231.7 213.25" preserveAspectRatio="xMidYMid meet"></svg>
+<div class="pill" id="pillA">
+<button id="bHome" title="Trocar o modo de corte"><span id="mlab">Silhouette</span> ▾</button><i class="sep"></i><button id="mEd" class="on">Gabarito</button><button id="mPr">Impressão <span class="bd" id="bd">0</span></button><i class="sep"></i>
+<span class="ed" style="display:contents"><button id="bNew">Subir arte</button><button id="bClear">Remover</button></span>
+<span class="pr" style="display:contents"><button id="bPack" title="Preenche os espaços vazios e agrupa as cópias de cada arte, uma depois da outra">Organizar</button><button id="bEmpty" title="Remove todas as cópias das folhas. As artes continuam na lista">Esvaziar folhas</button></span><i class="sep"></i><button id="bTheme" aria-label="Alternar tema claro e escuro" title="Alternar tema claro e escuro"></button></div>
+<div class="pill" id="pillZ"><span>Zoom</span><input type="range" id="zoom" min="1" max="3" step=".05" value="1" aria-label="Zoom da vista"></div>
+<div class="pill ed" id="legend"></div>
+<input type="file" id="file" accept="image/*" hidden><div id="sheets" class="pr"></div>
+</main>
+<aside id="panel" class="ed">
+<div class="tabs"><button id="t1" class="on">Encaixe</button><button id="t2">Tutorial</button></div>
+<div class="pg" id="pg1">
+<div id="sum">Suba sua arte para começar.</div>
+<div id="alerts"></div>
+<h3 style="margin-top:16px">Ajustes</h3>
+<div class="field"><div class="row"><span class="lbl">Tamanho</span><span class="lbl" id="vs">100%</span></div><input type="range" id="sc" min="20" max="400" value="100" disabled></div>
+<div class="field"><div class="row"><span class="lbl">Rotação</span><span class="lbl" id="vr">0°</span></div><input type="range" id="rt" min="-180" max="180" value="0" disabled></div>
+<div class="btnrow">
+<button class="soft" id="bCover" disabled>Preencher sangria</button>
+<button class="soft" id="bFit" disabled>Caber na área segura</button>
+<button class="soft" id="bCenter" disabled>Centralizar</button>
+<button class="soft" id="bFH" disabled>Espelhar ↔</button>
+<button class="soft" id="bFV" disabled>Espelhar ↕</button>
+<button class="soft" id="bR90" disabled>Girar 90°</button>
+<button class="soft" id="bReset" disabled>Resetar</button></div>
+<p class="lbl">Arraste a arte para mover. Role o mouse sobre o gabarito para ampliar ou reduzir. Setas movem de leve (<kbd>Shift</kbd> move mais).</p>
+</div>
+<div class="pg tut" id="pg2" hidden>
+<div class="hero"><svg id="mini" viewBox="-4 -4 215.7 197.25" aria-hidden="true"></svg><p><b>Guia rápido</b>Toque em uma linha abaixo para ver onde ela fica no botton.</p></div>
+<h3>Passo a passo</h3>
+<div class="step"><span class="n">1</span><div><p>Suba sua arte (PNG, JPG, WEBP ou SVG) ou arraste o arquivo para o gabarito.</p><button class="soft" data-act="new">Subir arte</button></div></div>
+<div class="step so"><span class="n">2</span><div><p>Recomendado: cubra todo o contorno vermelho para não sobrar filete branco depois do corte.</p><button class="soft" data-act="cover">Preencher sangria</button></div></div>
+<div class="step mo"><span class="n">2</span><div><p>Recomendado: preencha toda a forma preta para não sobrar partes brancas nas bordas depois do corte.</p><button class="soft" data-act="cover">Preencher área de corte</button></div></div>
+<div class="step"><span class="n">3</span><div><p>Arraste, amplie ou gire até o ponto principal da arte ficar no centro da linha verde.</p><button class="soft" data-act="center">Centralizar</button></div></div>
+<div class="step"><span class="n">4</span><div><p>Textos e detalhes importantes ficam dentro da linha amarela. Se precisar, encaixe a arte inteira ali.</p><button class="soft" data-act="fit">Caber na área segura</button></div></div>
+<h3>O que cada linha significa</h3>
+<button class="line so" data-k="bleed" style="--c:#ff1a1a"><b>Vermelha: sangria</b><span>Até onde a arte deve chegar, para não sobrar filete branco após o corte.</span></button>
+<button class="line" data-k="cut" style="--c:#111"><b>Preta: corte</b><span><span class="so">A Silhouette Studio corta aqui. </span><span class="mo">Corte com a tesoura nesta linha. </span>É o formato final do botton.</span></button>
+<button class="line" data-k="risk" style="--c:#ff6a00"><b>Laranja: área de risco</b><span>Marca a lateral do botton e a dobra do papel. O que passar daqui vai para a lateral.</span></button>
+<button class="line" data-k="safe" style="--c:#f5c400"><b>Amarela: área segura</b><span>O topo do botton. Textos e elementos importantes ficam dentro dela.</span></button>
+<button class="line" data-k="vis" style="--c:#00d000"><b>Verde: área visível</b><span>O foco do topo. Centralize aqui o ponto principal da arte.</span></button>
+<div class="step"><span class="n">5</span><div><p>Escolha quantas cópias quer e envie para a folha de impressão. Depois monte outra arte e repita.</p><button class="soft" data-act="send">Enviar para impressão</button></div></div>
+<h3>Dicas de arquivo</h3>
+<div class="tips">
+<div class="tip"><i></i><span>Use imagens com 300 dpi ou mais. <span class="so">O gabarito mede cerca de 73 × 67 mm com a sangria.</span><span class="mo">O gabarito mede cerca de 70 × 64 mm.</span></span></div>
+<div class="tip"><i></i><span>Fundo preenchido até a <span class="so">sangria</span><span class="mo">linha preta</span> evita bordas brancas.</span></div>
+<div class="tip"><i></i><span>As linhas são só guias e não farão parte da arte salva.</span></div></div>
+<h3>Atalhos</h3>
+<div class="keys"><div><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> mover</div><div><kbd>+</kbd><kbd>-</kbd> tamanho</div><div><kbd>[</kbd><kbd>]</kbd> girar 1°</div><div><kbd>Shift</kbd> move mais</div></div>
+<div class="note">Os alertas são sugestões. Você decide o que ajustar.</div>
+<div class="comm-slot"></div>
+</div><div class="foot"><div class="stp"><button id="cm" aria-label="Menos cópias">−</button><b id="cn">1</b><button id="cpl" aria-label="Mais cópias">+</button><span class="lbl">cópias</span></div><button class="btn" id="bSend" disabled>Enviar para impressão</button><button class="lnk" id="bSendNew" hidden>Enviar como nova arte</button></div></aside>
+<aside id="panelP" class="pr"><div class="tabs"><button id="p1" class="on">Peças</button><button id="p2">Ajuda</button></div>
+<div class="pg" id="pp1"><div id="sumP" class="al info" style="display:block;font-weight:600"></div><div id="pieces"></div></div>
+<div id="xmodal" class="modal" hidden><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mhead"><b id="mt">Exportar folha</b><button id="xclose" aria-label="Fechar">×</button></div><div class="mbody">
+<h3>Formato</h3><div class="chips" id="fmt"><button data-v="png" class="on">PNG</button><button data-v="jpg">JPEG</button><button data-v="jxl" disabled title="Indisponível">JPEG XL</button><button data-v="pdf">PDF</button></div>
+<h3>Modo de cor</h3><div class="chips" id="clr"><button data-v="rgb" class="on">RGB</button><button data-v="cmyk" disabled>CMYK</button></div>
+<div class="field"><label class="lbl" for="xdpi">Resolução</label><select id="xdpi"><option value="300">300 dpi (padrão)</option><option value="400">400 dpi</option><option value="450">450 dpi</option><option value="600">600 dpi</option></select></div>
+<div class="field"><label class="lbl" for="xq">Qualidade</label><select id="xq"><option value=".95">Alta (95%)</option><option value="1">Máxima (100%)</option><option value=".85">Média (85%)</option></select></div>
+<div class="field"><label class="lbl" for="xpg">Folhas</label><select id="xpg"></select></div>
+<button class="tog so on" id="xmk" type="button"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="3" y="3" width="6" height="6" stroke="none"/><path d="M17 4h7v7M4 17v7h7" fill="none" stroke-width="2"/></svg><span><b>Marcas de registro da Silhouette</b><small>Quadrado e dois cantos que a máquina lê para alinhar o corte. Entram no PDF.</small></span><em>Ligadas</em></button>
+<a class="tog so" href="https://drive.google.com/file/d/1gIJZ476F6KBUR7ckX-fPSq1V-7nj0KlQ/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 4v13m0 0-5-5m5 5 5-5M5 23h18" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Arquivo de corte para Silhouette</b><small>Baixe e abra no Silhouette Studio para cortar a folha exportada.</small></span><em>Baixar</em></a>
+<button class="tog mo on" id="xcl" type="button"><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="7" cy="7" r="3" fill="none" stroke-width="2"/><circle cx="7" cy="21" r="3" fill="none" stroke-width="2"/><path d="M9.5 9l14 11M9.5 19l14-11" fill="none" stroke-width="2"/></svg><span><b>Linhas de corte para tesoura</b><small>Um traço fino no contorno de cada coração para guiar o corte.</small></span><em>Ligadas</em></button>
+<div class="al info" style="display:block"><span id="xinfo"></span></div>
+</div><div class="mfoot"><button class="btn" id="bGo">Exportar arquivo</button></div></div></div>
+<div class="pg tut" id="pp2" hidden><div class="tips"><div class="tip"><i></i><span>Cada arte enviada do gabarito aparece aqui como uma peça. Use + e − para mudar quantas cópias vão para a folha.</span></div><div class="tip"><i></i><span>Toque em uma arte na folha e depois em outro espaço para trocar de lugar. O × remove só aquela cópia.</span></div><div class="tip"><i></i><span>Cada folha tem <b id="hSpp">6</b> espaços. Novas folhas são criadas sozinhas.</span></div><div class="tip"><i></i><span><b>Organizar</b> preenche os espaços vazios que sobram quando você remove cópias e agrupa as cópias de cada arte, uma depois da outra.</span></div><div class="tip"><i></i><span>O lápis reabre a peça no gabarito para ajustar e atualizar na folha.</span></div><div class="tip"><i></i><span>Os contornos tracejados dos espaços vazios são só guia e não ficam na impressão.</span></div></div><div class="comm-slot"></div></div>
+<div class="foot"><button class="soft" id="bNewArt">Nova arte</button><button class="btn" id="bExp">Exportar</button></div></aside></div>
+<div id="home" class="modal"><div class="hbox"><h1>Gabarito de botton coração</h1><p>Como você vai cortar seus bottons?</p><div class="hcards">
+<button class="hcard" data-m="sil"><svg viewBox="-6 -6 220 201" aria-hidden="true"></svg><b>Corte pela Silhouette</b><span>Gabarito com sangria e folha com marcas de registro para a máquina cortar.</span></button>
+<button class="hcard" data-m="man"><svg viewBox="-6 -6 211 192" aria-hidden="true"></svg><b>Corte manual</b><span>Gabarito sem sangria e folha com o máximo de peças e linha de corte para a tesoura.</span></button></div></div>
+<div class="hfoot"><p>Aplicação gratuita, desenvolvida e voltada para a comunidade.</p><a class="dlbtn" href="https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>Baixar gabaritos (PSD, AI e mais)</a></div></div>
+<div id="tip" class="tip2" hidden></div>
+<div id="toast"></div>
+<script>
+const P={"mask": "M103.85 188.88C102.19 188.88 100.52 188.82 98.88 188.71C97.34 188.64 95.64 188.45 93.89 188.17C90.92 187.73 89.07 187.2 88.42 187C75.61 183.58 49.76 171.2 19.85 126.77C-1.63 94.84 -5.54 61.3 9.12 34.73C20.82 13.54 42.49 0.38 65.65 0.38C80.15 0.38 91.19 3.84 96.48 5.9C100.48 7.46 103.07 11.21 103.07 15.44L103.07 22.66C103.07 23.09 103.42 23.44 103.85 23.44L103.85 23.44C104.28 23.44 104.63 23.09 104.63 22.66L104.63 15.44C104.63 11.21 107.22 7.46 111.22 5.9C116.51 3.84 127.55 0.38 142.05 0.38C165.22 0.38 186.88 13.54 198.58 34.73C213.25 61.3 209.34 94.84 187.85 126.77C157.83 171.38 131.89 183.68 119.1 187.04L118.66 187.16C117.49 187.53 115.88 187.86 113.75 188.18C112.05 188.46 110.34 188.64 108.72 188.72C107.18 188.82 105.52 188.88 103.85 188.88Z", "safe": "M174.71 68.93C174.71 40.18 154.15 33.49 142.56 32C138.19 31.44 133.88 33.39 131.43 37.04C129 40.65 125.53 45.4 121.83 49.1C114.93 56.01 103.85 55.98 103.85 55.98L103.85 56.16L103.85 55.98C103.85 55.98 92.77 56.01 85.87 49.1C82.17 45.4 78.7 40.65 76.28 37.04C73.82 33.39 69.51 31.44 65.14 32C53.55 33.49 32.99 40.18 32.99 68.93C32.99 108.65 83.86 155.18 103.61 155.91L103.61 155.93C103.69 155.93 103.77 155.92 103.85 155.92C103.93 155.92 104.01 155.93 104.09 155.93L104.09 155.91C123.84 155.18 174.71 108.65 174.71 68.93Z", "vis": "M103.85 40.27C140.29 40.27 169.83 64.23 169.83 93.8C169.83 123.36 140.29 147.33 103.85 147.33C67.41 147.33 37.87 123.36 37.87 93.8C37.87 64.23 67.41 40.27 103.85 40.27Z", "risk": "M171.38 32.38C171.38 32.38 156.71 17.86 137.04 19.12C123.47 19.99 112.82 26.44 107.52 30.35C105.33 31.97 102.37 31.97 100.18 30.35C94.88 26.44 84.23 19.99 70.66 19.12C50.99 17.86 36.33 32.38 36.33 32.38C36.33 32.38 18.29 50.96 21.14 73.44C23.91 97.59 40.56 121.02 40.56 121.02C40.56 121.02 71.74 169.04 103.85 169.04C103.85 169.04 103.85 169.04 103.85 169.04C103.85 169.04 103.85 169.04 103.85 169.04C135.96 169.04 167.14 121.02 167.14 121.02C167.14 121.02 183.79 97.59 186.56 73.44C189.41 50.96 171.38 32.38 171.38 32.38Z", "cut": "M103.85 184.63C102.28 184.63 100.7 184.57 99.17 184.47C97.72 184.4 96.17 184.23 94.57 183.97C91.61 183.53 89.93 183.02 89.61 182.91C74.17 178.83 50.16 164.19 23.38 124.39C2.81 93.84 -1.02 61.91 12.85 36.79C23.8 16.95 44.03 4.63 65.65 4.63C79.46 4.63 89.92 7.91 94.93 9.86C97.29 10.78 98.81 12.97 98.81 15.44L98.81 24.34C98.82 24.68 99 27.75 103.85 27.75C108.7 27.75 108.88 24.68 108.89 24.34L108.89 15.44C108.89 12.97 110.41 10.78 112.77 9.86C117.78 7.91 128.25 4.63 142.05 4.63C163.67 4.63 183.9 16.95 194.86 36.79C208.72 61.91 204.89 93.84 184.32 124.39C157.5 164.24 133.46 178.87 118.01 182.93L117.48 183.07C116.53 183.38 115.07 183.68 113.12 183.98C111.53 184.23 109.98 184.4 108.51 184.47C107 184.57 105.43 184.63 103.85 184.63Z"};
+const PM={"mask":"M99.59 180.38C98.01 180.38 96.44 180.32 94.91 180.22C93.46 180.15 91.9 179.98 90.31 179.72C87.35 179.28 85.67 178.77 85.35 178.66C69.91 174.58 45.9 159.94 19.12 120.14C-1.45 89.59 -5.28 57.66 8.58 32.54C19.54 12.7 39.77 0.38 61.39 0.38C75.2 0.38 85.66 3.66 90.67 5.61C93.03 6.53 94.55 8.72 94.55 11.19L94.55 20.09C94.56 20.44 94.74 23.5 99.59 23.5C104.44 23.5 104.62 20.44 104.63 20.09L104.63 11.19C104.63 8.72 106.15 6.53 108.51 5.61C113.52 3.66 123.98 0.38 137.79 0.38C159.41 0.38 179.64 12.7 190.6 32.54C204.47 57.66 200.63 89.59 180.06 120.14C153.24 159.99 129.2 174.62 113.75 178.68L113.22 178.82C112.27 179.13 110.81 179.43 108.86 179.73C107.27 179.98 105.72 180.15 104.25 180.22C102.74 180.33 101.17 180.38 99.59 180.38Z","safe":"M170.45 64.68C170.45 35.93 149.89 29.24 138.3 27.75C133.93 27.19 129.62 29.14 127.16 32.79C124.74 36.4 121.27 41.15 117.57 44.85C110.67 51.76 99.59 51.73 99.59 51.73L99.59 51.91L99.59 51.73C99.59 51.73 88.51 51.76 81.61 44.85C77.91 41.15 74.44 36.4 72.02 32.79C69.56 29.14 65.25 27.19 60.88 27.75C49.29 29.24 28.73 35.93 28.73 64.68C28.73 104.4 79.6 150.93 99.35 151.66L99.35 151.68C99.43 151.68 99.51 151.67 99.59 151.67C99.67 151.67 99.75 151.68 99.83 151.68L99.83 151.66C119.58 150.93 170.45 104.4 170.45 64.68Z","vis":"M99.59 36.02C136.03 36.02 165.57 59.99 165.57 89.55C165.57 119.11 136.03 143.08 99.59 143.08C63.15 143.08 33.61 119.11 33.61 89.55C33.61 59.99 63.15 36.02 99.59 36.02Z","risk":"M167.12 28.13C167.12 28.13 152.45 13.61 132.78 14.87C119.21 15.74 108.56 22.19 103.26 26.1C101.08 27.72 98.11 27.72 95.92 26.1C90.62 22.19 79.97 15.74 66.4 14.87C46.73 13.61 32.07 28.13 32.07 28.13C32.07 28.13 14.03 46.71 16.88 69.19C19.65 93.34 36.3 116.77 36.3 116.77C36.3 116.77 67.48 164.79 99.59 164.79C99.59 164.79 99.59 164.79 99.59 164.79C99.59 164.79 99.59 164.79 99.59 164.79C131.7 164.79 162.88 116.77 162.88 116.77C162.88 116.77 179.53 93.34 182.3 69.19C185.15 46.71 167.12 28.13 167.12 28.13Z","cut":"M99.59 180.38C98.01 180.38 96.44 180.32 94.91 180.22C93.46 180.15 91.9 179.98 90.31 179.72C87.35 179.28 85.67 178.77 85.35 178.66C69.91 174.58 45.9 159.94 19.12 120.14C-1.45 89.59 -5.28 57.66 8.58 32.54C19.54 12.7 39.77 0.38 61.39 0.38C75.2 0.38 85.66 3.66 90.67 5.61C93.03 6.53 94.55 8.72 94.55 11.19L94.55 20.09C94.56 20.44 94.74 23.5 99.59 23.5C104.44 23.5 104.62 20.44 104.63 20.09L104.63 11.19C104.63 8.72 106.15 6.53 108.51 5.61C113.52 3.66 123.98 0.38 137.79 0.38C159.41 0.38 179.64 12.7 190.6 32.54C204.47 57.66 200.63 89.59 180.06 120.14C153.24 159.99 129.2 174.62 113.75 178.68L113.22 178.82C112.27 179.13 110.81 179.43 108.86 179.73C107.27 179.98 105.72 180.15 104.25 180.22C102.74 180.33 101.17 180.38 99.59 180.38Z"},PSIL={...P};let W=207.702,H=189.254;const K=4,MM=.3528;
+let G=[['bleed','Sangria','#ff1a1a','3 2','mask'],['cut','Corte','#111','','cut'],['risk','Risco','#ff6a00','3 2','risk'],['safe','Segura','#f5c400','3 2','safe'],['vis','Visível','#00d000','3 2','vis']];
+const GS=G.slice();
+const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
+const board=$('board');
+function buildBoard(){board.setAttribute('viewBox',`-12 -12 ${W+24} ${H+24}`);board.innerHTML=`<defs><clipPath id="cp"><path d="${P.mask}"/></clipPath></defs>
+<path d="${P.mask}" fill="#fff"/><g id="ghost" opacity=".25"></g><g clip-path="url(#cp)"><g id="art"></g></g>
+<g id="guides" fill="none" stroke-linejoin="round">${G.map(g=>`<path id="g_${g[0]}" d="${P[g[4]]}" stroke="${g[2]}" stroke-width="${g[0]=='cut'?1.1:.9}" ${g[3]?`stroke-dasharray="${g[3]}"`:''}/>`).join('')}</g>
+<g id="empty" fill="#66758d" font-family="Segoe UI,system-ui,sans-serif" text-anchor="middle" style="cursor:pointer"><text x="103.85" y="92" font-size="9" font-weight="600">Arraste sua arte aqui</text><text x="103.85" y="104" font-size="6.5">ou clique para escolher o arquivo</text></g>`;
+$('legend').innerHTML=G.map(g=>`<label><input type="checkbox" checked data-g="${g[0]}"><i style="border-color:${g[2]}${g[3]?'':';border-top-style:solid'}"></i>${g[1]}</label>`).join('');
+document.querySelectorAll('[data-g]').forEach(c=>c.onchange=()=>$('g_'+c.dataset.g).style.display=c.checked?'':'none');}
+buildBoard();
+const bb=k=>$('g_'+k).getBBox();
+let st=null,base=1,tm=null;
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)}
+const BTN=['sc','rt','bCover','bFit','bCenter','bFH','bFV','bR90','bReset'];
+function tf(){return `translate(${st.cx} ${st.cy}) rotate(${st.rot}) scale(${st.fx*st.s} ${st.fy*st.s})`}
+function draw(){
+ syncFoot();const empty=!st;$('empty').style.display=empty?'':'none';BTN.forEach(b=>$(b).disabled=empty);
+ if(empty){$('art').innerHTML='';$('ghost').innerHTML='';return}
+ st.dirty=true;
+ const im=`<image href="${st.url}" x="${-st.iw/2}" y="${-st.ih/2}" width="${st.iw}" height="${st.ih}" transform="${tf()}"/>`;
+ $('art').innerHTML=im;$('ghost').innerHTML=im;
+ $('sc').value=Math.round(st.s/base*100);$('vs').textContent=Math.round(st.s/base*100)+'%';
+ $('rt').value=Math.round(st.rot);$('vr').textContent=Math.round(st.rot)+'°';
+ clearTimeout(tm);tm=setTimeout(analyze,90);
+}
+function load(f){
+ if(!f||!f.type.startsWith('image/'))return toast('Escolha um arquivo de imagem (PNG, JPG, WEBP ou SVG).');
+ const url=URL.createObjectURL(f),im=new Image();
+ im.onload=()=>{
+  const iw=im.naturalWidth||1000,ih=im.naturalHeight||1000;
+  const c=document.createElement('canvas');c.width=Math.min(iw,256);c.height=Math.min(ih,256);
+  const x=c.getContext('2d');x.drawImage(im,0,0,c.width,c.height);const d=x.getImageData(0,0,c.width,c.height).data;let a=false;
+  for(let i=3;i<d.length;i+=4)if(d[i]<245){a=true;break}
+    base=Math.max(W/iw,H/ih);
+  st={url,img:im,iw,ih,s:base,cx:W/2,cy:H/2,rot:0,fx:1,fy:1,alpha:a,name:f.name};
+  editId=null;cover();toast('Arte carregada: '+f.name);
+ };
+ im.onerror=()=>toast('Não foi possível abrir esse arquivo. Tente PNG ou JPG.');
+ im.src=url;
+}
+function cover(){ // menor escala que cobre toda a caixa da sangria, com a rotação atual
+ const r=st.rot*Math.PI/180,c=Math.cos(r),s=Math.sin(r);let m=0;
+ for(const[x,y]of[[-W/2,-H/2],[W/2,-H/2],[-W/2,H/2],[W/2,H/2]]){
+  const u=Math.abs(x*c+y*s),v=Math.abs(-x*s+y*c);m=Math.max(m,u*2/st.iw,v*2/st.ih)}
+ st.s=m;st.cx=W/2;st.cy=H/2;draw()}
+function fit(){const b=bb('safe'),r=st.rot*Math.PI/180,c=Math.abs(Math.cos(r)),s=Math.abs(Math.sin(r));
+ const w=st.iw*c+st.ih*s,h=st.iw*s+st.ih*c;st.s=Math.min(b.width/w,b.height/h);st.cx=b.x+b.width/2;st.cy=b.y+b.height/2;draw()}
+// ---- análise
+let M=null;
+function masks(){
+ const cv=document.createElement('canvas');cv.width=Math.round(W*K);cv.height=Math.round(H*K);const x=cv.getContext('2d',{willReadFrequently:true});
+ const o={};for(const k of['mask','risk','safe','vis']){x.clearRect(0,0,cv.width,cv.height);x.setTransform(K,0,0,K,0,0);x.fill(new Path2D(P[k]));
+  const d=x.getImageData(0,0,cv.width,cv.height).data,u=new Uint8Array(d.length/4);for(let i=0;i<u.length;i++)u[i]=d[i*4+3]>127?1:0;o[k]=u}
+ o.w=cv.width;o.h=cv.height;return o}
+function analyze(){
+ if(!st)return;if(!M)M=masks();
+ const cv=document.createElement('canvas');cv.width=M.w;cv.height=M.h;const x=cv.getContext('2d',{willReadFrequently:true});
+ x.setTransform(K,0,0,K,0,0);x.translate(st.cx,st.cy);x.rotate(st.rot*Math.PI/180);x.scale(st.fx*st.s,st.fy*st.s);x.drawImage(st.img,-st.iw/2,-st.ih/2,st.iw,st.ih);
+ const d=x.getImageData(0,0,M.w,M.h).data,n=M.w*M.h;let tot=0,cov=0,out=0,inCut=0,sx=0,sy=0,sn=0;
+ for(let i=0;i<n;i++){if(!M.mask[i])continue;tot++;if(d[i*4+3]>127){cov++;sx+=i%M.w;sy+=(i/M.w)|0;sn++;if(!M.safe[i])out++}}
+ const pct=cov/tot*100,L=[];
+ // sangria
+ const mn=CM=='man';if(pct>=99.5)L.push(['ok',mn?'Área de corte coberta':'Sangria coberta','A arte preenche toda a '+(mn?'forma de corte.':'linha vermelha.')]);
+ else L.push(['warn',mn?'A arte não cobre toda a área de corte':'A arte não cobre toda a sangria','Aumente a arte ou use "'+(mn?'Preencher área de corte':'Preencher sangria')+'" para evitar '+(mn?'partes brancas na borda.':'filetes brancos.')]);
+ // resolução
+ const dpi=72/st.s;
+ if(dpi>=280)L.push(['ok','Resolução boa','Cerca de '+Math.round(dpi)+' dpi neste tamanho.']);
+ else if(dpi>=180)L.push(['warn','Resolução um pouco baixa','Cerca de '+Math.round(dpi)+' dpi. O ideal é 300 dpi ou mais. A impressão pode perder nitidez.']);
+ else L.push(['err','Resolução baixa','Cerca de '+Math.round(dpi)+' dpi. A arte vai ficar pixelada. Use uma imagem maior ou reduza o tamanho.']);
+ // segurança
+ if(st.alpha){const q=out/Math.max(1,cov)*100;
+  if(sn===0)L.push(['warn','Arte fora do gabarito','Nenhuma parte visível da arte está dentro da sangria.']);
+  else if(q>.4)L.push(['warn','Elementos fora da área segura','Parte do desenho passa da linha amarela. Textos e detalhes importantes podem ser cortados ou dobrados.']);
+  else L.push(['ok','Elementos dentro da área segura','Nada visível passa da linha amarela.'])}
+
+ // foco
+ if(sn){const ax=sx/sn/K,ay=sy/sn/K,v=bb('vis'),dx=ax-(v.x+v.width/2),dy=ay-(v.y+v.height/2),dist=Math.hypot(dx,dy);
+  if(st.alpha){if(dist*MM>5)L.push(['warn','Foco descentralizado','O centro da arte está a '+(dist*MM).toFixed(1)+' mm do centro da área verde. Mova para '+(Math.abs(dx)>Math.abs(dy)?(dx>0?'a esquerda':'a direita'):(dy>0?'cima':'baixo'))+'.']);
+   else L.push(['ok','Foco centralizado','A arte está centrada na área verde.'])}
+  else{const cx=(st.cx-(v.x+v.width/2)),cy=st.cy-(v.y+v.height/2),dd=Math.hypot(cx,cy)*MM;
+   if(dd>6)L.push(['info','Centro da imagem fora do foco','O centro da imagem está a '+dd.toFixed(1)+' mm do centro verde. Se o ponto principal fica no meio, mova a arte.']);
+   else L.push(['ok','Foco centralizado','O centro da imagem está na área verde.'])}}
+ render(L,pct);
+}
+function render(L,pct){
+ const e=L.filter(a=>a[0]=='err').length,w=L.filter(a=>a[0]=='warn').length,s=$('sum');
+ const n=e+w;s.className=n?'warn':'ok';
+ s.textContent=n?'Atenção: vale ajustar '+n+(n>1?' pontos':' ponto')+'.':'Tudo certo com o encaixe.';
+ $('alerts').innerHTML=L.map(a=>`<div class="al ${a[0]}"><i class="d"></i><div><b>${a[1]}</b><span>${a[2]}</span>${a[3]!=null?`<div class="bar"><i style="width:${Math.min(100,a[3])}%;background:${a[0]=='ok'?'var(--ok)':a[0]=='warn'?'var(--warn)':'var(--err)'}"></i></div>`:''}</div></div>`).join('');
+}
+// ---- interação
+let drag=null;
+board.addEventListener('pointerdown',e=>{if(!st){if(e.target.closest('#empty'))$('file').click();return}drag={x:e.clientX,y:e.clientY,cx:st.cx,cy:st.cy};board.setPointerCapture(e.pointerId);board.classList.add('drag')});
+board.addEventListener('pointermove',e=>{if(!drag)return;const k=board.getScreenCTM().a;st.cx=drag.cx+(e.clientX-drag.x)/k;st.cy=drag.cy+(e.clientY-drag.y)/k;draw()});
+const end=()=>{drag=null;board.classList.remove('drag')};board.addEventListener('pointerup',end);board.addEventListener('pointercancel',end);
+board.addEventListener('wheel',e=>{if(!st)return;e.preventDefault();zoomArt(e.deltaY<0?1.04:1/1.04)},{passive:false});
+function zoomArt(f){st.s=Math.min(base*4,Math.max(base*.2,st.s*f));draw()}
+$('sc').oninput=e=>{st.s=base*e.target.value/100;draw()};
+$('rt').oninput=e=>{st.rot=+e.target.value;draw()};
+$('bCover').onclick=cover;$('bFit').onclick=fit;
+$('bCenter').onclick=()=>{st.cx=W/2;st.cy=H/2;draw()};
+$('bFH').onclick=()=>{st.fx*=-1;draw()};$('bFV').onclick=()=>{st.fy*=-1;draw()};
+$('bR90').onclick=()=>{st.rot=((st.rot+90+180)%360)-180;draw()};
+$('bReset').onclick=()=>{st.rot=0;st.fx=st.fy=1;cover()};
+$('bNew').onclick=()=>$('file').click();
+$('bClear').onclick=()=>{if(st){st=null;editId=null;draw();$('sum').className='';$('sum').textContent='Suba sua arte para começar.';$('alerts').innerHTML=''}};
+$('file').onchange=e=>{load(e.target.files[0]);e.target.value=''};
+
+['dragover','drop'].forEach(t=>$('stage').addEventListener(t,e=>{e.preventDefault();if(t=='drop')load(e.dataTransfer.files[0])}));
+addEventListener('keydown',e=>{if(mode!='edit'||!st||/INPUT/.test(e.target.tagName)&&e.target.type!='range')return;const m=e.shiftKey?2:.5,k=e.key;let h=1;
+ if(k=='ArrowLeft')st.cx-=m;else if(k=='ArrowRight')st.cx+=m;else if(k=='ArrowUp')st.cy-=m;else if(k=='ArrowDown')st.cy+=m;
+ else if(k=='+'||k=='=')st.s=Math.min(base*4,st.s*1.02);else if(k=='-')st.s=Math.max(base*.2,st.s/1.02);
+ else if(k=='[')st.rot=Math.max(-180,st.rot-1);else if(k==']')st.rot=Math.min(180,st.rot+1);else h=0;
+ if(h){e.preventDefault();draw()}});
+$('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);
+function tab(n){$('pg1').hidden=n!=1;$('pg2').hidden=n!=2;$('t1').classList.toggle('on',n==1);$('t2').classList.toggle('on',n==2)}
+const mini=$('mini');function buildMini(){mini.setAttribute('viewBox',`-4 -4 ${W+8} ${H+8}`);mini.innerHTML=`<path d="${P.mask}" fill="#fff"/>`+G.map(g=>`<path data-m="${g[0]}" d="${P[g[4]]}" fill="none" stroke="${g[2]}" stroke-width="2.6" ${g[3]?'stroke-dasharray="6 4"':''}/>`).join('')}
+buildMini();
+let sel=null;
+document.querySelectorAll('.line').forEach(b=>b.onclick=()=>{sel=sel==b.dataset.k?null:b.dataset.k;document.querySelectorAll('.line').forEach(x=>x.classList.toggle('on',x.dataset.k==sel));mini.querySelectorAll('[data-m]').forEach(p=>p.style.opacity=!sel||p.dataset.m==sel?1:.15)});
+document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const a=b.dataset.act;if(a=='new')return $('file').click();if(!st)return toast('Suba uma arte primeiro.');if(a=='send')send();else if(a=='cover')cover();else if(a=='fit')fit();else{st.cx=W/2;st.cy=H/2;draw()}});
+/* ===== IMPRESSÃO ===== */
+const A4W=595.276,A4H=841.89,OX=(A4W-421.36)/2,OY=(A4H-671.33)/2;let SPP=6;
+let pieces=[],pages=[[]],mode='edit',editId=null,uid=0,pz=1,ez=1,copies=1,psel=null;const fresh=new Set();
+const np_=()=>new Array(SPP).fill(null),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+pages=[np_()];
+const count=id=>pages.reduce((s,p)=>s+p.filter(x=>x===id).length,0),total=()=>pages.reduce((s,p)=>s+p.filter(Boolean).length,0);
+function addTo(id){for(let p=0;p<pages.length;p++){const i=pages[p].indexOf(null);if(i>=0){pages[p][i]=id;fresh.add(p+'-'+i);return}}const n=np_();n[0]=id;pages.push(n);fresh.add((pages.length-1)+'-0')}
+function removeOne(id){for(let p=pages.length-1;p>=0;p--){const i=pages[p].lastIndexOf(id);if(i>=0){pages[p][i]=null;return true}}return false}
+const trim=()=>{while(pages.length>1&&pages[pages.length-1].every(x=>!x))pages.pop()};
+function setCopies(id,n){let c=count(id);while(c<n){addTo(id);c++}while(c>n&&removeOne(id))c--;trim()}
+function syncFoot(){$('cn').textContent=copies;$('bSend').textContent=editId?'Atualizar na folha':'Enviar para impressão';$('bSend').disabled=!st;$('bSendNew').hidden=!editId}
+function renderPiece(s){return new Promise(r=>{const k=5,c=document.createElement('canvas');c.width=Math.round(W*k);c.height=Math.round(H*k);const x=c.getContext('2d');
+ x.imageSmoothingQuality='high';x.scale(k,k);x.clip(new Path2D(P.mask));x.translate(s.cx,s.cy);x.rotate(s.rot*Math.PI/180);x.scale(s.fx*s.s,s.fy*s.s);x.drawImage(s.img,-s.iw/2,-s.ih/2,s.iw,s.ih);
+ c.toBlob(b=>r(URL.createObjectURL(b)),'image/png')})}
+async function send(asNew){
+ if(!st)return toast('Suba uma arte primeiro.');
+ const url=await renderPiece(st),src={...st,dirty:false};let pc=!asNew&&editId&&pieces.find(p=>p.id==editId);
+ if(pc){pc.url=url;pc.src=src}else{let nm=(st.name||'Arte').replace(/\.[^.]+$/,''),n=nm,i=2;while(pieces.some(p=>p.name==n))n=nm+' '+i++;pc={id:++uid,name:n,url,src};pieces.push(pc);editId=pc.id}
+ setCopies(pc.id,copies);st.dirty=false;psel=null;setMode('print');toast(copies+(copies>1?' cópias enviadas':' cópia enviada')+' para a folha')}
+function slotG(p,i,id){const m=slotM(i),pc=pieces.find(q=>q.id===id);
+ const cls='slot '+(pc?'full':'empty')+(psel&&psel.p==p&&psel.i==i?' sel':'')+(fresh.has(p+'-'+i)?' new':'');
+ return `<g transform="matrix(${m.join(' ')})" class="${cls}" data-p="${p}" data-i="${i}"><g class="in">`+(pc?`<image href="${pc.url}" width="${W}" height="${H}"/><path d="${P.mask}" fill="rgba(0,0,0,0)"/>`:`<path d="${P.mask}" class="ph"/>`)+(pc&&CM=='man'&&X.cutline?`<path d="${P.cut}" fill="none" stroke="#111" stroke-width=".35"/>`:'')+`<path d="${P.cut}" class="ring"/>`+(pc?`<g class="ctl"><circle cx="160" cy="34" r="10"/><path d="M156 30l8 8M164 30l-8 8"/></g>`:'')+`</g></g>`}
+function renderSheets(){const el=$('sheets');el.style.setProperty('--pw',Math.round(460*pz));
+ el.innerHTML=pages.map((pg,p)=>`<div><div class="lab">Folha ${p+1} · ${pg.filter(Boolean).length} de ${SPP} espaços</div><svg class="sheet" viewBox="0 0 ${A4W} ${A4H}">${pg.map((id,i)=>slotG(p,i,id)).join('')}${CM=='sil'&&X.marks?MK.map(r=>`<rect x="${r[0]}" y="${r[1]}" width="${r[2]}" height="${r[3]}"/>`).join(''):''}</svg></div>`).join('');fresh.clear()}
+function renderPieces(){const t=total(),n=pages.length;$('bd').textContent=t;
+ $('sumP').textContent=t?`${t} cópia${t>1?'s':''} em ${n} folha${n>1?'s':''}`:'Folha vazia';
+ $('pieces').innerHTML=pieces.length?pieces.map(pc=>{const c=count(pc.id);return `<div class="pc" data-id="${pc.id}"><img src="${pc.url}" alt=""><div class="pi"><input class="nm" value="${esc(pc.name)}" data-a="name" aria-label="Nome da arte"><div class="cp"><button data-a="minus"${c?'':' disabled'} aria-label="Menos uma cópia">−</button><b>${c}</b><button data-a="plus" aria-label="Mais uma cópia">+</button><span class="lbl">cópias</span></div></div><div class="pb"><button data-a="edit" title="Editar no gabarito"><svg class="i" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg></button><button data-a="del" title="Remover arte"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></div>`}).join(''):`<div class="empty">Nenhuma arte na folha ainda.<br>Monte uma arte no gabarito e envie para cá.</div>`}
+const renderAll=()=>{renderSheets();renderPieces()};
+function setMode(m){mode=m;document.body.dataset.mode=m;const z=$('zoom');z.min=m=='edit'?1:.6;z.max=m=='edit'?3:1.8;z.value=m=='edit'?ez:pz;$('mEd').classList.toggle('on',m=='edit');$('mPr').classList.toggle('on',m=='print');if(m=='print')renderAll();else syncFoot()}
+$('zoom').oninput=e=>{const v=+e.target.value;if(mode=='edit'){ez=v;board.style.setProperty('--z',v)}else{pz=v;renderSheets()}};
+$('mEd').onclick=()=>setMode('edit');$('mPr').onclick=()=>setMode('print');
+$('cm').onclick=()=>{copies=Math.max(1,copies-1);syncFoot()};$('cpl').onclick=()=>{copies=Math.min(60,copies+1);syncFoot()};
+$('bSend').onclick=()=>send();$('bSendNew').onclick=()=>send(true);
+$('bNewArt').onclick=()=>{if(st&&st.dirty)return toast('Envie ou remova a arte atual do gabarito antes de começar outra.');st=null;editId=null;draw();setMode('edit');$('file').click()};
+$('bPack').onclick=()=>{const seq=[];pieces.forEach(p=>{for(let i=count(p.id);i>0;i--)seq.push(p.id)});pages=[np_()];seq.forEach(addTo);fresh.clear();trim();psel=null;renderAll()};
+$('bEmpty').onclick=()=>{pages=[np_()];psel=null;renderAll()};
+$('sheets').onclick=e=>{const g=e.target.closest('.slot');if(!g)return;const p=+g.dataset.p,i=+g.dataset.i;
+ if(e.target.closest('.ctl')){pages[p][i]=null;trim();psel=null;return renderAll()}
+ if(psel){if(psel.p!=p||psel.i!=i){const a=pages[psel.p][psel.i];pages[psel.p][psel.i]=pages[p][i];pages[p][i]=a;trim()}psel=null;return renderAll()}
+ if(pages[p][i]){psel={p,i};renderAll()}};
+$('pieces').onclick=e=>{const b=e.target.closest('button[data-a]'),c=e.target.closest('.pc');if(!b||!c)return;const id=+c.dataset.id,pc=pieces.find(q=>q.id==id),a=b.dataset.a;
+ if(a=='plus'){addTo(id)}else if(a=='minus'){removeOne(id);trim()}
+ else if(a=='del'){pages.forEach(pg=>pg.forEach((x,i)=>{if(x===id)pg[i]=null}));trim();pieces=pieces.filter(q=>q.id!=id);if(editId==id)editId=null;psel=null}
+ else if(a=='edit'){if(st&&st.dirty)return toast('Envie ou remova a arte atual do gabarito antes de editar outra.');
+  st={...pc.src};editId=id;base=Math.max(W/st.iw,H/st.ih);copies=Math.max(1,count(id));setMode('edit');draw();st.dirty=false;return}
+ renderAll()};
+$('pieces').onchange=e=>{if(e.target.dataset.a=='name'){const pc=pieces.find(q=>q.id==e.target.closest('.pc').dataset.id);if(pc)pc.name=e.target.value||pc.name}};
+/* ===== EXPORTAR ===== */
+function tabP(n){[1,2].forEach(i=>{$('pp'+i).hidden=i!=n;$('p'+i).classList.toggle('on',i==n)})}
+function openX(){if(!total())return toast('A folha está vazia. Envie uma arte do gabarito primeiro.');xui();$('xmodal').hidden=false;$('bGo').focus()}
+const closeX=()=>{$('xmodal').hidden=true};
+[1,2].forEach(i=>$('p'+i).onclick=()=>tabP(i));$('bExp').onclick=openX;$('xclose').onclick=closeX;
+$('xmodal').onclick=e=>{if(e.target.id=='xmodal')closeX()};addEventListener('keydown',e=>{if(e.key=='Escape')closeX()});
+const X={f:'png',c:'rgb',marks:true,cutline:true},MK=[[44.29,44.29,15.72,15.72],[511.65,44.29,39.49,1.42],[549.72,44.29,1.42,39.37],[44.29,758.54,1.42,39.37],[44.29,796.49,39.37,1.42]];let dl=null;
+(async()=>{try{if(window.claude)dl=await claude.use('downloads')}catch(e){}})();
+function xui(){const pdf=X.f=='pdf',dpi=+$('xdpi').value,pv=$('xpg').value;if(!pdf)X.c='rgb';
+ document.querySelectorAll('#fmt button').forEach(b=>b.classList.toggle('on',b.dataset.v==X.f));
+ document.querySelectorAll('#clr button').forEach(b=>{b.classList.toggle('on',b.dataset.v==X.c);if(b.dataset.v=='cmyk')b.disabled=!pdf});
+ $('xpg').innerHTML=(pdf?`<option value="all">Todas (${pages.length})</option>`:'')+pages.map((_,i)=>`<option value="${i}">Folha ${i+1}</option>`).join('');
+ if([...$('xpg').options].some(o=>o.value==pv))$('xpg').value=pv;
+ $('xq').disabled=X.f=='png'||X.c=='cmyk';$('xmk').disabled=!pdf;
+ $('xmk').classList.toggle('on',X.marks&&pdf);$('xmk').querySelector('em').textContent=!pdf?'Só no PDF':X.marks?'Ligadas':'Desligadas';
+ $('xcl').classList.toggle('on',X.cutline);$('xcl').querySelector('em').textContent=X.cutline?'Ligadas':'Desligadas';
+ $('xinfo').textContent=`Folha A4 em ${Math.round(A4W/72*dpi)} × ${Math.round(A4H/72*dpi)} px. `+(pdf?(X.c=='cmyk'?'CMYK real (DeviceCMYK), sem perda e sem perfil ICC. O arquivo fica grande em resoluções altas. ':'RGB com compressão JPEG. '):'PNG e JPEG só guardam RGB: para CMYK escolha PDF. ')+(pdf&&CM=='sil'&&X.marks?'Marcas de registro da Silhouette incluídas. ':'')+'JPEG XL indisponível: nenhum navegador gera esse formato e o app não pode salvar .jxl.'}
+$('fmt').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled){X.f=b.dataset.v;xui()}};
+$('clr').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled){X.c=b.dataset.v;xui()}};
+$('xdpi').onchange=xui;$('xmk').onclick=()=>{X.marks=!X.marks;renderSheets();xui()};$('xcl').onclick=()=>{X.cutline=!X.cutline;renderSheets();xui()};$('bGo').onclick=doExport;
+const crcT=(()=>{const a=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;a[n]=c>>>0}return a})();
+const crc=u=>{let c=-1;for(const b of u)c=crcT[(c^b)&255]^(c>>>8);return(~c)>>>0};
+function pngDpi(u,dpi){const p=Math.round(dpi/.0254),h=new Uint8Array(21),v=new DataView(h.buffer);v.setUint32(0,9);h.set([112,72,89,115],4);v.setUint32(8,p);v.setUint32(12,p);h[16]=1;v.setUint32(17,crc(h.subarray(4,17)));
+ const o=new Uint8Array(u.length+21);o.set(u.subarray(0,33));o.set(h,33);o.set(u.subarray(33),54);return o}
+function jpgDpi(u,dpi){if(u[2]==255&&u[3]==224){u[13]=1;u[14]=dpi>>8;u[15]=dpi&255;u[16]=dpi>>8;u[17]=dpi&255}return u}
+function drawPage(pg,dpi){const k=dpi/72,c=document.createElement('canvas');c.width=Math.round(A4W*k);c.height=Math.round(A4H*k);const x=c.getContext('2d');if(!x)throw{};
+ x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.imageSmoothingQuality='high';
+ pg.forEach((id,i)=>{const pc=pieces.find(q=>q.id===id);if(!pc)return;const s=pc.src;x.save();x.setTransform(k,0,0,k,0,0);
+  x.transform(...slotM(i));x.clip(new Path2D(P.mask));
+  x.translate(s.cx,s.cy);x.rotate(s.rot*Math.PI/180);x.scale(s.fx*s.s,s.fy*s.s);x.drawImage(s.img,-s.iw/2,-s.ih/2,s.iw,s.ih);x.restore();if(CM=='man'&&X.cutline){x.save();x.setTransform(k,0,0,k,0,0);x.transform(...slotM(i));x.lineWidth=.35;x.strokeStyle='#000';x.stroke(new Path2D(P.cut));x.restore()}});return c}
+const toBlob=(c,t,q)=>new Promise(r=>c.toBlob(r,t,q)),u8=async b=>new Uint8Array(await b.arrayBuffer());
+async function cmykFlate(c){const cs=new CompressionStream('deflate'),w=cs.writable.getWriter(),ch=[];
+ const rd=(async()=>{const r=cs.readable.getReader();for(;;){const{done,value}=await r.read();if(done)break;ch.push(value)}})();
+ const x=c.getContext('2d'),B=256;
+ for(let y=0;y<c.height;y+=B){const h=Math.min(B,c.height-y),d=x.getImageData(0,y,c.width,h).data,o=new Uint8Array(c.width*h*4);
+  for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],b=d[i+2],m=Math.max(r,g,b);if(m){o[i]=255*(m-r)/m;o[i+1]=255*(m-g)/m;o[i+2]=255*(m-b)/m}o[i+3]=255-m}
+  await w.write(o)}
+ await w.close();await rd;return u8(new Blob(ch))}
+function pdf(L,mk,cm){const parts=[],off=[],enc=new TextEncoder();let len=0;const put=x=>{const u=typeof x=='string'?enc.encode(x):x;parts.push(u);len+=u.length};
+ const obj=(n,s,bin)=>{off[n]=len;put(`${n} 0 obj\n${s}`);if(bin){put('\nstream\n');put(bin);put('\nendstream')}put('\nendobj\n')},n=L.length;
+ put('%PDF-1.4\n');obj(1,'<</Type/Catalog/Pages 2 0 R>>');obj(2,`<</Type/Pages/Count ${n}/Kids[${L.map((_,i)=>`${3+3*i} 0 R`).join(' ')}]>>`);
+ L.forEach((p,i)=>{const a=3+3*i,c=`q ${A4W} 0 0 ${A4H} 0 0 cm /Im0 Do Q`+(mk?` ${cm?'0 0 0 1 k':'0 g'} `+MK.map(r=>`${r[0]} ${(A4H-r[1]-r[3]).toFixed(3)} ${r[2]} ${r[3]} re`).join(' ')+' f':'');
+  obj(a,`<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${A4W} ${A4H}]/Resources<</XObject<</Im0 ${a+2} 0 R>>>>/Contents ${a+1} 0 R>>`);
+  obj(a+1,`<</Length ${c.length}>>`,enc.encode(c));
+  obj(a+2,`<</Type/XObject/Subtype/Image/Width ${p.w}/Height ${p.h}/ColorSpace/${p.cs}/BitsPerComponent 8/Filter/${p.f}/Length ${p.d.length}>>`,p.d)});
+ const xr=len,N=3*n+3;put(`xref\n0 ${N}\n0000000000 65535 f \n`);for(let i=1;i<N;i++)put(String(off[i]).padStart(10,'0')+' 00000 n \n');
+ put(`trailer\n<</Size ${N}/Root 1 0 R>>\nstartxref\n${xr}\n%%EOF`);return new Blob(parts,{type:'application/pdf'})}
+async function saveFile(b,name){if(dl){await dl.save({filename:name,data:b});toast('Arquivo salvo: '+name)}
+ else if(!window.claude){const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();toast('Arquivo gerado: '+name)}else throw{code:'unavailable'}}
+async function doExport(){
+ if(!total())return toast('A folha está vazia. Envie uma arte do gabarito primeiro.');
+ const dpi=+$('xdpi').value,q=+$('xq').value,v=$('xpg').value,idx=v=='all'?pages.map((_,i)=>i):[+v],btn=$('bGo'),nm='botton-coracao-'+(CM=='man'?'manual':'silhouette'),L=[];btn.disabled=true;
+ try{for(const i of idx){btn.textContent=`Gerando folha ${i+1}…`;await new Promise(r=>setTimeout(r,30));const c=drawPage(pages[i],dpi);
+   if(X.f=='pdf')L.push(X.c=='cmyk'?{w:c.width,h:c.height,cs:'DeviceCMYK',f:'FlateDecode',d:await cmykFlate(c)}:{w:c.width,h:c.height,cs:'DeviceRGB',f:'DCTDecode',d:await u8(await toBlob(c,'image/jpeg',q))});
+   else{const png=X.f=='png',mt=png?'image/png':'image/jpeg',b=await toBlob(c,mt,q);if(!b)throw{};let u=await u8(b);u=png?pngDpi(u,dpi):jpgDpi(u,dpi);
+    btn.textContent='Salvando…';await saveFile(new Blob([u],{type:mt}),`${nm}-folha-${i+1}-${dpi}dpi.${png?'png':'jpg'}`)}}
+  if(X.f=='pdf'){btn.textContent='Salvando…';await saveFile(pdf(L,CM=='sil'&&X.marks,X.c=='cmyk'),`${nm}-${dpi}dpi-${X.c}.pdf`)}}
+ catch(e){toast(e&&e.code=='declined'?'Salvamento cancelado.':e&&e.code=='too_large'?'Arquivo grande demais. Tente uma resolução menor.':'Não foi possível gerar o arquivo. Tente uma resolução menor.')}
+ finally{btn.disabled=false;btn.textContent='Exportar arquivo'}}
+/* ===== MODO DE CORTE ===== */
+const MG=14.1732,GAP=.5669,BW=198.38,BH=180,SX=.4,SY=.38;
+function manLayout(){let b=null;for(const r of[0,1]){const w=r?BH:BW,h=r?BW:BH,c=Math.floor((A4W-2*MG+GAP)/(w+GAP)),n=Math.floor((A4H-2*MG+GAP)/(h+GAP));if(!b||c*n>b.c*b.n)b={r,w,h,c,n}}
+ b.ox=(A4W-(b.c*b.w+(b.c-1)*GAP))/2;b.oy=(A4H-(b.n*b.h+(b.n-1)*GAP))/2;return b}
+const ML=manLayout();let CM='sil';const S={};
+function slotM(i){if(CM=='sil')return[1,0,0,1,OX-.37+(i%2)*214.4,OY-.38+Math.floor(i/2)*241.41];
+ const x=ML.ox+(i%ML.c)*(ML.w+GAP),y=ML.oy+Math.floor(i/ML.c)*(ML.h+GAP);return ML.r?[0,1,-1,0,x+BH+SY,y-SX]:[1,0,0,1,x-SX,y-SY]}
+function setCut(m){
+ if(m!=CM){S[CM]={pieces,pages,editId,uid,copies,st,base};CM=m;const s=S[m]||{pieces:[],pages:null,editId:null,uid:0,copies:1,st:null,base:1};
+  Object.assign(P,m=='man'?PM:PSIL);W=m=='man'?199.181:207.702;H=m=='man'?180.756:189.254;G=m=='man'?GS.filter(g=>g[0]!='bleed'):GS;SPP=m=='man'?ML.c*ML.n:6;
+  ({pieces,pages,editId,uid,copies,st,base}=s);if(!pages)pages=[np_()];M=null;psel=null;fresh.clear();
+  document.body.dataset.cut=m;buildBoard();buildMini();
+  $('bCover').textContent=m=='man'?'Preencher área de corte':'Preencher sangria';$('hSpp').textContent=SPP;$('mlab').textContent=m=='man'?'Corte manual':'Silhouette';
+  const dd=st&&st.dirty;draw();if(st)st.dirty=dd}
+ setMode('edit');$('home').hidden=true}
+document.querySelectorAll('.hcard').forEach(b=>{const m=b.dataset.m,p=m=='man'?PM:PSIL;
+ b.querySelector('svg').innerHTML=`<path d="${p.mask}" fill="#fff"${m=='man'?'':' stroke="#ff1a1a" stroke-width="2.5" stroke-dasharray="6 4"'}/><path d="${p.cut}" fill="none" stroke="#111" stroke-width="2.5"/>`;b.onclick=()=>setCut(m)});
+$('bHome').onclick=()=>{$('home').hidden=false};
+/* popup da legenda */
+const GD={bleed:['Sangria','Até onde a arte deve chegar, para não sobrar filete branco depois do corte.'],cut:['Corte',''],risk:['Área de risco','Marca a lateral do botton e a dobra do papel. O que passar daqui vai para a lateral.'],safe:['Área segura','O topo do botton. Textos e elementos importantes ficam dentro dela.'],vis:['Área visível','O foco do topo. Centralize aqui o ponto principal da arte.']};
+function showTip(l){const k=l.querySelector('input').dataset.g,g=G.find(x=>x[0]==k),d=GD[k],tip=$('tip'),r=l.getBoundingClientRect();
+ tip.innerHTML=`<b>${d[0]}</b>${d[1]||(CM=='man'?'Você corta aqui com a tesoura. É o formato final do botton.':'A Silhouette Studio corta aqui. É o formato final do botton.')}`;
+ tip.style.setProperty('--c',g[2]);tip.hidden=false;const w=tip.offsetWidth/2+8;tip.style.left=Math.min(innerWidth-w,Math.max(w,r.left+r.width/2))+'px';tip.style.top=(r.top-10)+'px';
+ G.forEach(x=>{const p=$('g_'+x[0]);if(p){p.style.opacity=x[0]==k?1:.25;p.style.strokeWidth=x[0]==k?2.2:''}})}
+function hideTip(){$('tip').hidden=true;G.forEach(x=>{const p=$('g_'+x[0]);if(p){p.style.opacity='';p.style.strokeWidth=''}})}
+const lg=$('legend');lg.addEventListener('mouseover',e=>{const l=e.target.closest('label');if(l)showTip(l)});
+lg.addEventListener('mouseout',e=>{const n=e.relatedTarget;if(!n||!n.closest||!n.closest('label'))hideTip()});
+lg.addEventListener('focusin',e=>{const l=e.target.closest('label');if(l)showTip(l)});lg.addEventListener('focusout',hideTip);
+/* comunidade */
+document.querySelectorAll('.comm-slot').forEach(e=>e.innerHTML='<div class="comm"><b>Gratuito e feito para a comunidade</b><p>Esta aplicação é gratuita, desenvolvida e voltada para a comunidade.</p><a class="dlbtn" href="https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>Baixar gabaritos (PSD, AI e mais)</a></div>');
+/* tema */
+const mq=matchMedia('(prefers-color-scheme:dark)');
+const isDark=()=>{const a=document.documentElement.dataset.theme;return a?a=='dark':mq.matches};
+function themeIcon(){$('bTheme').innerHTML=isDark()?'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>':'<svg class="i" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>'}
+try{const s=localStorage.getItem('tema');if(s)document.documentElement.dataset.theme=s}catch(e){}
+$('bTheme').onclick=()=>{const n=isDark()?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('tema',n)}catch(e){}themeIcon()};
+mq.addEventListener('change',themeIcon);themeIcon();
+document.body.dataset.cut='sil';
+document.body.dataset.mode='edit';
+draw();
+</script></body></html>
