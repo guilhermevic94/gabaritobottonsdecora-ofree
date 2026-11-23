@@ -243,7 +243,7 @@ body,#panel,#panelP,.pill,.pc,.step,.tip,.al,select,.mbox,.tog{transition:backgr
 <div class="g3"><div class="field"><label class="lbl" for="xdpi">Resolução</label><select id="xdpi"><option value="300">300 dpi (padrão)</option><option value="400">400 dpi</option><option value="450">450 dpi</option><option value="600">600 dpi</option></select></div>
 <div class="field"><label class="lbl" for="xq">Qualidade</label><select id="xq"><option value=".95">Alta (95%)</option><option value="1">Máxima (100%)</option><option value=".85">Média (85%)</option></select></div>
 <div class="field"><label class="lbl" for="xpg">Folhas</label><select id="xpg"></select></div></div>
-<button class="tog so on" id="xmk" type="button"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="3" y="3" width="6" height="6" stroke="none"/><path d="M17 4h7v7M4 17v7h7" fill="none" stroke-width="2"/></svg><span><b>Marcas de registro da Silhouette</b><small>Quadrado e dois cantos que a máquina lê para alinhar o corte. Entram no PDF.</small></span><em>Ligadas</em></button>
+<button class="tog so on" id="xmk" type="button"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="3" y="3" width="6" height="6" stroke="none"/><path d="M17 4h7v7M4 17v7h7" fill="none" stroke-width="2"/></svg><span><b>Marcas de registro da Silhouette</b><small>Quadrado e dois cantos que a máquina lê para alinhar o corte. Entram no PDF e na impressão direta. PNG e JPEG saem sem marcas.</small></span><em>Ligadas</em></button>
 <a class="tog so" href="https://drive.google.com/file/d/1gIJZ476F6KBUR7ckX-fPSq1V-7nj0KlQ/view?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 4v13m0 0-5-5m5 5 5-5M5 23h18" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Arquivo de corte para Silhouette</b><small>Baixe e abra no Silhouette Studio para cortar a folha exportada.</small></span><em>Baixar</em></a>
 <button class="tog mo on" id="xcl" type="button"><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="7" cy="7" r="3" fill="none" stroke-width="2"/><circle cx="7" cy="21" r="3" fill="none" stroke-width="2"/><path d="M9.5 9l14 11M9.5 19l14-11" fill="none" stroke-width="2"/></svg><span><b>Linhas de corte para tesoura</b><small>Um traço fino no contorno de cada coração para guiar o corte.</small></span><em>Ligadas</em></button>
 <div class="al info" style="display:block"><span id="xinfo"></span></div>
@@ -418,7 +418,7 @@ function slotG(p,i,id){const m=slotM(i),pc=pieces.find(q=>q.id===id);
  const cls='slot '+(pc?'full':'empty')+(psel&&psel.p==p&&psel.i==i?' sel':'')+(fresh.has(p+'-'+i)?' new':'');
  return `<g transform="matrix(${m.join(' ')})" class="${cls}" data-p="${p}" data-i="${i}"><g class="in">`+(pc?`<image href="${pc.url}" width="${W}" height="${H}"/><path d="${P.mask}" fill="rgba(0,0,0,0)"/>`:`<path d="${P.mask}" class="ph"/>`)+(pc&&CM=='man'&&X.cutline?`<path d="${P.cut}" fill="none" stroke="#111" stroke-width=".35"/>`:'')+`<path d="${P.cut}" class="ring"/>`+(pc?`<g class="ctl"><circle cx="160" cy="34" r="10"/><path d="M156 30l8 8M164 30l-8 8"/></g>`:'')+`</g></g>`}
 function renderSheets(){const el=$('sheets');el.style.setProperty('--pw',Math.round(460*pz));
- el.innerHTML=pages.map((pg,p)=>`<div><div class="lab">Folha ${p+1} · ${pg.filter(Boolean).length} de ${SPP} espaços</div><svg class="sheet" viewBox="0 0 ${A4W} ${A4H}">${pg.map((id,i)=>slotG(p,i,id)).join('')}${CM=='sil'&&X.marks?MK.map(r=>`<rect x="${r[0]}" y="${r[1]}" width="${r[2]}" height="${r[3]}"/>`).join(''):''}</svg></div>`).join('');fresh.clear()}
+ el.innerHTML=pages.map((pg,p)=>`<div><div class="lab">Folha ${p+1} · ${pg.filter(Boolean).length} de ${SPP} espaços</div><svg class="sheet" viewBox="0 0 ${A4W} ${A4H}">${pg.map((id,i)=>slotG(p,i,id)).join('')}${CM=='sil'&&X.marks&&($('xmodal').hidden||X.f=='pdf')?MK.map(r=>`<rect x="${r[0]}" y="${r[1]}" width="${r[2]}" height="${r[3]}"/>`).join(''):''}</svg></div>`).join('');fresh.clear()}
 function renderPieces(){const t=total(),n=pages.length;$('bd').textContent=t;
  $('sumP').textContent=t?`${t} cópia${t>1?'s':''} em ${n} folha${n>1?'s':''}`:'Folha vazia';
  $('pieces').innerHTML=pieces.length?pieces.map(pc=>{const c=count(pc.id);return `<div class="pc" data-id="${pc.id}"><img src="${pc.url}" alt=""><div class="pi"><input class="nm" value="${esc(pc.name)}" data-a="name" aria-label="Nome da arte"><div class="cp"><button data-a="minus"${c?'':' disabled'} aria-label="Menos uma cópia">−</button><b>${c}</b><button data-a="plus" aria-label="Mais uma cópia">+</button><span class="lbl">cópias</span></div></div><div class="pb"><button data-a="edit" title="Editar no gabarito"><svg class="i" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg></button><button data-a="del" title="Remover arte"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div></div>`}).join(''):`<div class="empty">Nenhuma arte na folha ainda.<br>Monte uma arte no gabarito e envie para cá.</div>`}
@@ -445,8 +445,8 @@ $('pieces').onclick=e=>{const b=e.target.closest('button[data-a]'),c=e.target.cl
 $('pieces').onchange=e=>{if(e.target.dataset.a=='name'){const pc=pieces.find(q=>q.id==e.target.closest('.pc').dataset.id);if(pc)pc.name=e.target.value||pc.name}};
 /* ===== EXPORTAR ===== */
 function tabP(n){[1,2].forEach(i=>{$('pp'+i).hidden=i!=n;$('p'+i).classList.toggle('on',i==n)})}
-function openX(){if(!total())return toast('A folha está vazia. Envie uma arte do gabarito primeiro.');xui();$('xmodal').hidden=false;$('bGo').focus()}
-const closeX=()=>{$('xmodal').hidden=true};
+function openX(){if(!total())return toast('A folha está vazia. Envie uma arte do gabarito primeiro.');$('xmodal').hidden=false;xui();renderSheets();$('bGo').focus()}
+const closeX=()=>{$('xmodal').hidden=true;renderSheets()};
 [1,2].forEach(i=>$('p'+i).onclick=()=>tabP(i));$('bExp').onclick=openX;$('xclose').onclick=closeX;
 $('xmodal').onclick=e=>{if(e.target.id=='xmodal')closeX()};addEventListener('keydown',e=>{if(e.key=='Escape')closeX()});
 const X={f:'png',c:'rgb',marks:true,cutline:true},MK=[[44.29,44.29,15.72,15.72],[511.65,44.29,39.49,1.42],[549.72,44.29,1.42,39.37],[44.29,758.54,1.42,39.37],[44.29,796.49,39.37,1.42]];let dl=null;
@@ -456,11 +456,11 @@ function xui(){const pdf=X.f=='pdf',dpi=+$('xdpi').value,pv=$('xpg').value;if(!p
  document.querySelectorAll('#clr button').forEach(b=>{b.classList.toggle('on',b.dataset.v==X.c);if(b.dataset.v=='cmyk')b.disabled=!pdf});
  $('xpg').innerHTML=(pdf?`<option value="all">Todas (${pages.length})</option>`:'')+pages.map((_,i)=>`<option value="${i}">Folha ${i+1}</option>`).join('');
  if([...$('xpg').options].some(o=>o.value==pv))$('xpg').value=pv;
- $('xq').disabled=X.f=='png'||X.c=='cmyk';$('xmk').disabled=!pdf;
- $('xmk').classList.toggle('on',X.marks&&pdf);$('xmk').querySelector('em').textContent=!pdf?'Só no PDF':X.marks?'Ligadas':'Desligadas';
+ $('xq').disabled=X.f=='png'||X.c=='cmyk';
+ $('xmk').classList.toggle('on',X.marks);$('xmk').querySelector('em').textContent=X.marks?'Ligadas':'Desligadas';
  $('xcl').classList.toggle('on',X.cutline);$('xcl').querySelector('em').textContent=X.cutline?'Ligadas':'Desligadas';
  $('xinfo').textContent=`Folha A4 em ${Math.round(A4W/72*dpi)} × ${Math.round(A4H/72*dpi)} px. `+(pdf?(X.c=='cmyk'?'CMYK real (DeviceCMYK), sem perda e sem perfil ICC. O arquivo fica grande em resoluções altas. ':'RGB com compressão JPEG. '):'PNG e JPEG só guardam RGB: para CMYK escolha PDF. ')+(pdf&&CM=='sil'&&X.marks?'Marcas de registro da Silhouette incluídas. ':'')+'JPEG XL indisponível: nenhum navegador gera esse formato e o app não pode salvar .jxl.'}
-$('fmt').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled){X.f=b.dataset.v;xui()}};
+$('fmt').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled){X.f=b.dataset.v;xui();renderSheets()}};
 $('clr').onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled){X.c=b.dataset.v;xui()}};
 $('xdpi').onchange=xui;$('xmk').onclick=()=>{X.marks=!X.marks;renderSheets();xui()};$('xcl').onclick=()=>{X.cutline=!X.cutline;renderSheets();xui()};$('bGo').onclick=doExport;
 const crcT=(()=>{const a=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;a[n]=c>>>0}return a})();
