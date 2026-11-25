@@ -42,13 +42,11 @@ O gabarito foi desenvolvido para atender ao padrão de bottons em formato de cor
 
 Além da ferramenta online, o projeto disponibiliza os arquivos de gabarito utilizados no fluxo de trabalho, permitindo personalização e edição em diferentes programas.
 
-**Formatos disponíveis:**
+**Formatos disponíveis no app:**
 - PSD — Adobe Photoshop
 - AI — Adobe Illustrator
 - Affinity — Affinity Designer
 - CDR — CorelDRAW
-
-[📥 Acessar arquivos e gabaritos para download](https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing)
 
 ## 📏 Guias do gabarito
 
