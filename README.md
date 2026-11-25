@@ -74,7 +74,7 @@ O Gabarito Bottons De Coração é uma ferramenta gratuita, desenvolvida com foc
 
 O projeto continua em desenvolvimento e aprimoramento.
 
-**Versão atual:** 0.11 (Beta)
+**Versão atual:** 0.11.5 (Beta)
 
 ---
 
