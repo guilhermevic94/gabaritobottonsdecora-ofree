@@ -82,7 +82,7 @@ Conheça o material original:
 
 ## 📦 Sobre o projeto
 
-O Gabarito Bottons Decora é uma ferramenta gratuita, desenvolvida com foco na comunidade de produtores de bottons e materiais personalizados.
+O Gabarito Bottons De Coração é uma ferramenta gratuita, desenvolvida com foco na comunidade de produtores de bottons e materiais personalizados.
 
 O projeto continua em desenvolvimento e aprimoramento.
 
