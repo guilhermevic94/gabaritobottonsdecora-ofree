@@ -60,18 +60,6 @@ O editor utiliza linhas de referência para auxiliar na preparação da arte:
 | Amarela | Área segura |
 | Verde | Área visível |
 
-## 🙏 Agradecimentos
-
-Este projeto foi possível graças ao excelente material inicial disponibilizado por **Ginny Gravity**.
-
-Embora o gabarito tenha sido praticamente refeito do zero para refinar, ajustar e adaptar perfeitamente ao padrão das prensas mais comuns no Brasil, a base criada por ela foi fundamental para o desenvolvimento deste trabalho.
-
-Fica aqui o meu enorme agradecimento pelo trabalho incrível!
-
-Conheça o material original:
-
-[Heart Shaped Button Maker Template — Ginny Gravity](https://ginnygravity.gumroad.com/l/heart-shaped-button-maker-template)
-
 ## 🛠️ Tecnologias
 
 - HTML5
