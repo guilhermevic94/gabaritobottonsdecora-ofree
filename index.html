@@ -23,7 +23,7 @@ svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 #legend{bottom:16px;left:50%;transform:translateX(-50%);padding:6px 14px;gap:14px}
 #legend label{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12.5px;white-space:nowrap}
 #legend i{width:16px;height:0;border-top:3px dashed;display:block}
-#panel,#panelP{width:350px;flex:none;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+#panel,#panelP{width:392px;flex:none;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:row;min-height:0}
 .tabs{display:flex;border-bottom:1px solid var(--line)}
 .tabs button{flex:1;background:none;border:0;padding:13px 0;color:var(--mut);font-weight:600;border-bottom:2px solid transparent}
 .tabs button.on{color:var(--acc);border-color:var(--acc)}
@@ -134,7 +134,7 @@ body[data-mode=print] #sheets,body[data-mode=edit] #board{animation:fade .35s}
 .sec summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center}
 .sec summary::-webkit-details-marker{display:none}.sec summary::after{content:"";width:7px;height:7px;border-right:2px solid var(--mut);border-bottom:2px solid var(--mut);transform:rotate(45deg);transition:transform .2s;margin:-3px 2px 0 0}.sec[open] summary::after{transform:rotate(-135deg);margin-top:3px}
 .secb{padding:2px 14px 14px}
-.apop{position:fixed;z-index:7;right:366px;top:84px;width:320px;max-height:calc(100% - 180px);display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 40px #0004;animation:sheet .2s}
+.apop{position:fixed;z-index:7;right:408px;top:84px;width:320px;max-height:calc(100% - 180px);display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 40px #0004;animation:sheet .2s}
 .apop .mhead{padding:10px 14px}.apop .abody{padding:12px 12px 4px;overflow:auto}
 @media(max-width:860px){.apop{right:12px;left:12px;width:auto;top:auto;bottom:calc(46% + 12px)}}
 .swatch{width:44px;height:34px;border-radius:9px;border:1px solid var(--line2);padding:0;cursor:pointer}.swatch:disabled{opacity:.45;cursor:default}
@@ -148,6 +148,24 @@ body[data-mode=print] #sheets,body[data-mode=edit] #board{animation:fade .35s}
 .sw2{width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);padding:0;transition:transform .12s}.sw2:hover{transform:scale(1.18)}
 #stage.pan,#stage.pan *{cursor:grab!important}#stage.panning,#stage.panning *{cursor:grabbing!important}
 #panelP .pg{flex:0 1 auto}
+.rail{width:64px;flex:none;background:var(--panel2);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 0}
+.rbtn{position:relative;width:44px;height:44px;border:0;background:transparent;border-radius:14px;color:var(--mut);display:grid;place-items:center;transition:background .15s,color .15s,box-shadow .15s,transform .12s}
+.rbtn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rbtn:hover{background:var(--panel);color:var(--txt)}.rbtn.on{background:var(--panel);color:var(--acc);box-shadow:0 2px 10px #1a22331f}.rbtn:active{transform:scale(.94)}
+.rbtn::after{content:attr(data-tip);position:absolute;right:calc(100% + 15px);top:50%;transform:translateY(-50%);background:var(--acc);color:#fff;font-weight:600;font-size:12.5px;padding:6px 14px;border-radius:999px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}
+.rbtn::before{content:"";position:absolute;right:calc(100% + 9px);top:50%;transform:translateY(-50%);border:6px solid transparent;border-right:0;border-left-color:var(--acc);opacity:0;pointer-events:none;transition:opacity .15s}
+.rbtn:hover::after,.rbtn:hover::before,.rbtn:focus-visible::after,.rbtn:focus-visible::before{opacity:1}
+.pcont{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0}
+.phead{padding:16px 20px 12px;border-bottom:1px solid var(--line)}.phead h2{margin:0;font-size:17px;font-weight:700}.psub{color:var(--mut);font-size:12.5px;margin-top:2px}
+#panel[data-view=arte] .vw:not([data-sec=arte]),#panel[data-view=ajustes] .vw:not([data-sec=ajustes]),#panel[data-view=fundo] .vw:not([data-sec=fundo]){display:none}
+.dz{position:relative;min-height:220px;display:grid;place-items:center;text-align:center;padding:16px;border:2px dashed rgba(37,99,235,.45);background:var(--soft);border-radius:16px;cursor:pointer;overflow:hidden;transition:border-color .15s,background .15s}
+.dz:hover,.dz.hot{border-color:var(--acc)}.dz.hot{background:var(--panel2)}
+.dz img{max-width:100%;max-height:230px;object-fit:contain;border-radius:10px;background:repeating-conic-gradient(#e4e8ef 0 25%,#fff 0 50%) 0/12px 12px}
+.dzt b{display:block;font-size:14px;margin-bottom:6px}.dzt span{color:var(--mut);font-size:12.5px;line-height:1.55}
+.dzmeta{margin-top:10px;display:flex;flex-direction:column;gap:2px}.dzmeta b{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dzmeta span{color:var(--mut);font-size:12px}
+.loadbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:14px;padding:12px 16px;border-radius:999px;border:1.5px solid rgba(37,99,235,.5);background:var(--soft);color:var(--acc);font-weight:700;transition:background .15s,color .15s,transform .12s}
+.loadbtn:hover{background:var(--acc);color:#fff}.loadbtn:active{transform:scale(.97)}.loadbtn svg{width:18px;height:18px}
+.hbox p.q{margin-top:18px;color:var(--txt);font-weight:600}.hbox p.compat{margin:10px auto 0;max-width:560px;line-height:1.55;font-size:14px}.hbox p.compat b{color:var(--txt)}
 .pq{display:flex;gap:14px;align-items:flex-start}.pq b{display:block;font-size:15px;margin-bottom:4px}.pq p{margin:0;color:var(--mut)}
 .pqi svg{width:46px;height:46px;flex:none;fill:currentColor;stroke:currentColor;color:var(--acc)}
 .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px}
@@ -166,10 +184,24 @@ body[data-mode=print] #sheets,body[data-mode=edit] #board{animation:fade .35s}
  #printhost .pgp:last-child{break-after:auto;page-break-after:auto}
  #printhost img{display:block;width:210mm;height:297mm}
 }
+.tshield{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 12px;border-radius:50%;background:var(--soft);color:var(--acc)}
+.tshield svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tlead{margin:0 0 14px;text-align:center;color:var(--mut);line-height:1.55}
+.trules{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:9px}
+.trules li{display:flex;gap:12px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:13px;background:var(--panel2)}
+.trules svg{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+.trules b{display:block;margin-bottom:1px}.trules span{color:var(--mut);line-height:1.5}.trules b{color:var(--txt)}
+.trules .ok svg{color:var(--ok)}.trules .no svg{color:var(--err)}.trules .cr svg{color:var(--warn)}
+#tmodal:not([hidden]) .tshield{animation:pop .6s cubic-bezier(.2,1.4,.4,1) both}
+#tmodal:not([hidden]) .tlead{animation:rise .45s .12s both}
+#tmodal:not([hidden]) .trules li{animation:rise .45s both}#tmodal:not([hidden]) .trules li:nth-child(1){animation-delay:.22s}#tmodal:not([hidden]) .trules li:nth-child(2){animation-delay:.32s}#tmodal:not([hidden]) .trules li:nth-child(3){animation-delay:.42s}
+#tmodal:not([hidden]) .mfoot{animation:rise .5s .55s both}
+.btn.shine{position:relative;overflow:hidden}.btn.shine::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-100%);animation:shine 2.6s 1.2s infinite}
+@keyframes shine{to{transform:translateX(100%)}}
 .pill button:disabled{opacity:.4;cursor:default}.pill button:disabled:hover{background:transparent}
 body[data-mode=edit] #stage{padding:var(--pt,72px) 16px var(--pb,76px)}
-#pillA{flex-wrap:wrap;max-width:calc(100vw - 382px);border-radius:24px}
-@media(max-width:1250px){#legend{left:16px;transform:none;bottom:68px;max-width:calc(100vw - 382px);flex-wrap:wrap}}
+#pillA{flex-wrap:wrap;max-width:calc(100vw - 424px);border-radius:24px}
+@media(max-width:1290px){#legend{left:16px;transform:none;bottom:68px;max-width:calc(100vw - 424px);flex-wrap:wrap}}
 @media(max-width:860px){#pillA{max-width:calc(100vw - 32px)}#pillZ{bottom:calc(46% + 12px)}}
 .soft,.btn,.pill button,.chips button,.cp button,.stp button,.dlbtn{transition:transform .12s,background-color .15s,filter .15s,border-color .15s}
 .soft:active,.btn:active,.pill button:active,.chips button:active,.cp button:active,.stp button:active,.dlbtn:active{transform:scale(.96)}
@@ -188,16 +220,31 @@ body,#panel,#panelP,.pill,.pc,.step,.tip,.al,select,.mbox,.tog{transition:backgr
 <div class="pill" id="pillA">
 <button id="bHome" title="Trocar o modo de corte"><span id="mlab">Silhouette</span> ▾</button><i class="sep"></i><button id="mEd" class="on">Gabarito</button><button id="mPr">Impressão <span class="bd" id="bd">0</span></button><i class="sep"></i>
 <button id="bUndo" aria-label="Desfazer" title="Desfazer (Ctrl+Z)"><svg class="i" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button><button id="bRedo" aria-label="Refazer" title="Refazer (Ctrl+Y)"><svg class="i" viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button><i class="sep"></i>
-<span class="ed" style="display:contents"><button id="bNew">Subir arte</button><button id="bPaste" title="Colar imagem copiada (Ctrl+V)">Colar</button><button id="bClear">Remover</button></span>
+<span class="ed" style="display:contents"><button id="bClear">Remover</button></span>
 <span class="pr" style="display:contents"><button id="bPack" title="Preenche os espaços vazios e agrupa as cópias de cada arte, uma depois da outra">Organizar</button><button id="bEmpty" title="Remove todas as cópias das folhas. As artes continuam na lista">Esvaziar folhas</button></span><i class="sep"></i><button id="bTheme" aria-label="Alternar tema claro e escuro" title="Alternar tema claro e escuro"></button><button id="bAbout" aria-label="Quem fez o app" title="Quem fez o app"><svg class="i" viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>
 <div class="pill" id="pillZ"><span>Zoom</span><input type="range" id="zoom" min="1" max="4" step=".05" value="1" aria-label="Zoom da vista"><button id="zv" title="Voltar ao ajuste (Ctrl+0)">100%</button></div>
 <div class="pill ed" id="legend"></div>
 <input type="file" id="file" accept="image/*,.svg,.pdf,.ai,application/pdf" multiple hidden><div id="sheets" class="pr"></div>
 </main>
-<aside id="panel" class="ed">
-<div class="tabs"><button id="t1" class="on">Encaixe</button><button id="t2">Tutorial</button></div>
+<aside id="panel" class="ed" data-view="arte">
+<nav class="rail" aria-label="Seções do painel">
+<button class="rbtn on" data-v="arte" data-tip="Arte" aria-label="Arte"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg></button>
+<button class="rbtn" data-v="ajustes" data-tip="Ajustes" aria-label="Ajustes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
+<button class="rbtn" data-v="fundo" data-tip="Fundo" aria-label="Fundo da arte"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></svg></button>
+<span style="flex:1"></span>
+<button class="rbtn" data-v="dicas" data-tip="Dicas" aria-label="Dicas e tutorial"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg></button>
+</nav>
+<div class="pcont">
+<div class="phead"><h2 id="ptitle">Arte</h2><div class="psub" id="psub"></div></div>
 <div class="pg" id="pg1">
 <button id="sum" type="button" aria-haspopup="dialog">Suba sua arte para começar.</button>
+<div class="vw" data-sec="arte">
+<div class="dz" id="dz" role="button" tabindex="0" aria-label="Carregar arte"><img id="dzimg" alt="" hidden><div class="dzt" id="dzt"><b>Arraste sua arte aqui</b><span>ou clique para escolher o arquivo.<br>Você também pode colar com Ctrl+V.</span></div></div>
+<div class="dzmeta" id="dzmeta" hidden></div>
+<button class="loadbtn" id="bLoad" type="button"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V4m0 0-4 4m4-4 4 4M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></svg>Carregar arte</button>
+<p class="lbl" style="margin-top:14px">PNG, JPG, WEBP, SVG ou PDF. Escolheu várias de uma vez? Cada uma vira uma peça na folha.</p>
+</div>
+<div class="vw" data-sec="ajustes">
 <details class="sec" open><summary>Tamanho e posição</summary><div class="secb">
 <div class="field"><div class="row"><span class="lbl">Tamanho</span><span class="lbl" id="vs">100%</span></div><input type="range" id="sc" min="20" max="400" value="100" disabled></div>
 <div class="field" style="margin:0"><div class="row"><span class="lbl">Rotação</span><span class="lbl" id="vr">0°</span></div><input type="range" id="rt" min="-180" max="180" value="0" disabled></div></div></details>
@@ -205,11 +252,14 @@ body,#panel,#panelP,.pill,.pc,.step,.tip,.al,select,.mbox,.tog{transition:backgr
 <button class="soft" id="bCover" disabled>Preencher sangria</button><button class="soft" id="bFit" disabled>Caber na área segura</button><button class="soft" id="bCenter" disabled>Centralizar</button></div></div></details>
 <details class="sec" open><summary>Transformar</summary><div class="secb"><div class="btnrow" style="margin:0">
 <button class="soft" id="bFH" disabled>Espelhar ↔</button><button class="soft" id="bFV" disabled>Espelhar ↕</button><button class="soft" id="bR90" disabled>Girar 90°</button></div></div></details>
+<button class="soft" id="bReset" disabled>Resetar posição e tamanho</button>
+<p class="lbl" style="margin-top:12px">Arraste a arte para mover e use a roda do mouse para ampliar ou reduzir. Segure <kbd>Espaço</kbd> e arraste para mover a tela. <kbd>Ctrl</kbd> + roda dá zoom na tela.</p>
+</div>
+<div class="vw" data-sec="fundo">
 <details class="sec" open><summary>Fundo da arte</summary><div class="secb">
 <div class="row" style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="lbl">Cor de fundo</span><span class="lbl" id="bgv">Sem fundo</span></div>
 <div class="bgrow"><button class="swatch" id="bgc" disabled aria-label="Escolher a cor do fundo"></button><button class="soft" id="bDrop" disabled>Conta-gotas</button><button class="soft" id="bNoBg" disabled>Sem fundo</button></div></div></details>
-<button class="soft" id="bReset" disabled>Resetar posição e tamanho</button>
-<p class="lbl" style="margin-top:12px">Arraste a arte para mover e use a roda do mouse para ampliar ou reduzir. Segure <kbd>Espaço</kbd> e arraste para mover a tela. <kbd>Ctrl</kbd> + roda dá zoom na tela.</p>
+</div>
 </div>
 <div class="pg tut" id="pg2" hidden>
 <div class="hero"><svg id="mini" viewBox="-4 -4 215.7 197.25" aria-hidden="true"></svg><p><b>Guia rápido</b>Toque em uma linha abaixo para ver onde ela fica no botton.</p></div>
@@ -236,8 +286,12 @@ body,#panel,#panelP,.pill,.pc,.step,.tip,.al,select,.mbox,.tog{transition:backgr
 <div class="keys"><div><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> mover</div><div><kbd>+</kbd><kbd>-</kbd> tamanho</div><div><kbd>[</kbd><kbd>]</kbd> girar 1°</div><div><kbd>Shift</kbd> move mais</div><div><kbd>Ctrl</kbd><kbd>Z</kbd> desfazer</div><div><kbd>Ctrl</kbd><kbd>Y</kbd> refazer</div><div><kbd>Espaço</kbd> arrastar a tela</div><div><kbd>Ctrl</kbd> + roda: zoom</div></div>
 <div class="note">Os alertas são sugestões. Você decide o que ajustar.</div>
 <div class="comm-slot"></div>
-</div><div class="foot"><div class="stp"><button id="cm" aria-label="Menos cópias">−</button><b id="cn">1</b><button id="cpl" aria-label="Mais cópias">+</button><span class="lbl">cópias</span></div><button class="btn" id="bSend" disabled>Enviar para impressão</button><button class="lnk" id="bSendNew" hidden>Enviar como nova arte</button></div></aside>
-<aside id="panelP" class="pr"><div class="tabs"><button id="p1" class="on">Peças</button><button id="p2">Ajuda</button></div>
+</div><div class="foot"><div class="stp"><button id="cm" aria-label="Menos cópias">−</button><b id="cn">1</b><button id="cpl" aria-label="Mais cópias">+</button><span class="lbl">cópias</span></div><button class="btn" id="bSend" disabled>Enviar para impressão</button><button class="lnk" id="bSendNew" hidden>Enviar como nova arte</button></div></div></aside>
+<aside id="panelP" class="pr"><nav class="rail" aria-label="Seções do painel">
+<button class="rbtn on" id="p1" data-tip="Peças" aria-label="Peças"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
+<span style="flex:1"></span>
+<button class="rbtn" id="p2" data-tip="Ajuda" aria-label="Ajuda"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg></button></nav>
+<div class="pcont"><div class="phead"><h2 id="ptitleP">Peças</h2><div class="psub" id="psubP">Artes e cópias na folha</div></div>
 <div class="pg" id="pp1"><div id="sumP" class="al info" style="display:block;font-weight:600"></div><div id="pieces"></div></div>
 <div id="xmodal" class="modal" hidden><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mhead"><b id="mt">Exportar folha</b><button id="xclose" aria-label="Fechar">×</button></div><div class="mbody">
 <h3>Formato</h3><div class="chips" id="fmt"><button data-v="png" class="on">PNG</button><button data-v="jpg">JPEG</button><button data-v="jxl" disabled title="Indisponível">JPEG XL</button><button data-v="pdf">PDF</button></div>
@@ -252,18 +306,26 @@ body,#panel,#panelP,.pill,.pc,.step,.tip,.al,select,.mbox,.tog{transition:backgr
 <p class="lbl" style="margin:10px 0 6px">Imprimir direto: no diálogo do navegador, use escala 100% (tamanho real) e margens "Nenhuma", para as marcas e os cortes ficarem no lugar certo.</p>
 </div><div class="mfoot"><button class="soft" id="bPrintM" title="Imprimir direto, sem salvar arquivo"><svg class="i" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M7 14h10v7H7z"/></svg>Imprimir agora</button><button class="btn" id="bGo">Exportar arquivo</button></div></div></div>
 <div class="pg tut" id="pp2" hidden><div class="tips"><div class="tip"><i></i><span>Cada arte enviada do gabarito aparece aqui como uma peça. Use + e − para mudar quantas cópias vão para a folha.</span></div><div class="tip"><i></i><span>Toque em uma arte na folha e depois em outro espaço para trocar de lugar. O × remove só aquela cópia.</span></div><div class="tip"><i></i><span>Cada folha tem <b id="hSpp">6</b> espaços. Novas folhas são criadas sozinhas.</span></div><div class="tip"><i></i><span><b>Organizar</b> preenche os espaços vazios que sobram quando você remove cópias e agrupa as cópias de cada arte, uma depois da outra.</span></div><div class="tip"><i></i><span>O lápis reabre a peça no gabarito para ajustar e atualizar na folha.</span></div><div class="tip"><i></i><span>Os contornos tracejados dos espaços vazios são só guia e não ficam na impressão.</span></div><div class="tip"><i></i><span><b>Imprimir</b> manda as folhas direto para a impressora, sem exportar. No diálogo, use escala 100% e margens "Nenhuma".</span></div><div class="tip"><i></i><span>Ao imprimir, o app pergunta se você quer as <b>marcas de registro</b> (corte na Silhouette) ou as <b>linhas de tesoura</b> (corte manual).</span></div></div><div class="comm-slot"></div></div>
-<div class="foot"><button class="soft" id="bNewArt">Nova arte</button><button class="soft" id="bPrint" title="Imprimir direto (Ctrl+P)"><svg class="i" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M7 14h10v7H7z"/></svg>Imprimir</button><button class="btn" id="bExp">Exportar</button></div></aside></div>
-<div id="home" class="modal"><div class="htop"><div class="seg" id="hSeg" role="group" aria-label="Tema do app"><button type="button" data-t="light"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Claro</button><button type="button" data-t="dark"><svg class="i" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Escuro</button></div><button class="dlbtn round" id="hAbout"><svg class="i" viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Quem fez o app</button></div><div class="hbox"><h1>Gabarito de botton coração</h1><p>Como você vai cortar seus bottons?</p><div class="hcards">
+<div class="foot"><button class="soft" id="bNewArt">Nova arte</button><button class="soft" id="bPrint" title="Imprimir direto (Ctrl+P)"><svg class="i" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M7 14h10v7H7z"/></svg>Imprimir</button><button class="btn" id="bExp">Exportar</button></div></div></aside></div>
+<div id="home" class="modal"><div class="htop"><div class="seg" id="hSeg" role="group" aria-label="Tema do app"><button type="button" data-t="light"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Claro</button><button type="button" data-t="dark"><svg class="i" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Escuro</button></div><button class="dlbtn round" id="hAbout"><svg class="i" viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Quem fez o app</button></div><div class="hbox"><h1>Gabarito de botton coração</h1><p class="compat">Compatível com prensas manuais <b>Mecolour/Importadas</b> (Série DC 108). Matriz no formato Coração de 57x53mm.</p><p class="q">Como você vai cortar seus bottons?</p><div class="hcards">
 <button class="hcard" data-m="sil"><svg viewBox="-6 -6 220 201" aria-hidden="true"></svg><b>Corte pela Silhouette</b><span>Gabarito com sangria e folha com marcas de registro para a máquina cortar.</span></button>
 <button class="hcard" data-m="man"><svg viewBox="-6 -6 211 192" aria-hidden="true"></svg><b>Corte manual</b><span>Gabarito sem sangria e folha com o máximo de peças e linha de corte para a tesoura.</span></button></div></div>
-<div class="hbeta"><b>BETA</b>App em teste · versão 0.11</div>
-<div class="hfoot"><p>Aplicação gratuita, desenvolvida e voltada para a comunidade.</p><a class="dlbtn" href="https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>Baixar gabaritos (PSD, AI e mais)</a></div></div>
+<div class="hbeta"><b>BETA</b>App em teste · versão 0.11.5</div>
+<div class="hfoot"><p>Aplicação gratuita, desenvolvida e voltada para a comunidade.</p><a class="dlbtn" href="https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing" data-pack target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>Baixar gabaritos (PSD, AI e mais)</a></div></div>
+<div id="tmodal" class="modal" style="z-index:35" hidden><div class="mbox tbox" role="dialog" aria-modal="true" aria-labelledby="tt2" style="width:min(470px,100%)"><div class="mhead"><b id="tt2">Antes de baixar</b><button id="tclose" aria-label="Fechar">×</button></div><div class="mbody">
+<div class="tshield"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></div>
+<p class="tlead">Os gabaritos da Nerdverso são gratuitos e feitos para a comunidade. Para continuar, leia e concorde com as regras de uso:</p>
+<ul class="trules">
+<li class="ok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span><b>Pode</b>Usar nos seus projetos pessoais e na produção da sua loja ou pequeno negócio.</span></li>
+<li class="no"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg><span><b>Não pode</b>Revender, redistribuir, compartilhar ou reempacotar os arquivos, nem apresentá-los como se fossem seus.</span></li>
+<li class="cr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l2.4 5 5.6.7-4.1 3.8 1.1 5.5L12 16.3 7 19l1.1-5.5L4 9.7 9.6 9z"/></svg><span><b>Créditos</b>Mantenha sempre os créditos da Nerdverso.</span></li></ul>
+</div><div class="mfoot"><button class="soft" id="tno" style="flex:none">Agora não</button><button class="btn shine" id="tyes">Concordo e baixar</button></div></div></div>
 <div id="about" class="modal" style="z-index:30" hidden><div class="mbox abt" role="dialog" aria-modal="true" aria-labelledby="at"><div class="mhead"><b id="at">Quem fez o app</b><button id="aclose" aria-label="Fechar">×</button></div><div class="mbody">
-<div class="who"><svg class="logo" viewBox="0 0 405.49 401.14" fill="currentColor" aria-hidden="true"><g><g><g><circle cx="83.25" cy="361.13" r="24.57"/><circle cx="21.02" cy="377.33" r="21.02"/></g><g><path d="M142.69,126.11c-3.73,0-6.76,3.02-6.76,6.76s3.03,6.76,6.76,6.76,6.76-3.03,6.76-6.76-3.03-6.76-6.76-6.76Z"/><path d="M162.04,140c-5.79,0-10.47,4.69-10.47,10.48s4.69,10.48,10.47,10.48,10.48-4.69,10.48-10.48-4.69-10.48-10.48-10.48Z"/><path d="M202.41.02C90.4,1.38,1.85,93.23,4.4,205.21c.7,30.93,8.41,60.12,21.59,86.07-9.64,4.79-16.03,15.13-14.99,26.84,1.15,12.89,11.53,23.32,24.41,24.54,8.18.78,15.69-2.08,21.14-7.14.02.02.03.04.05.06,7.16-7.47,17.43-11.95,28.74-11.33,18.4,1.01,33.44,15.79,34.75,34.17.28,3.94-.06,7.75-.93,11.36-1.56,6.48,1.94,13.16,8.08,15.74,22.73,9.56,47.58,15.06,73.66,15.57,111.79,2.2,203.27-86.33,204.57-198.14C406.79,90.26,315.13-1.36,202.41.02ZM208.8,103.38c3.6,0,6.52,2.92,6.52,6.52s-2.92,6.52-6.52,6.52-6.52-2.92-6.52-6.52,2.92-6.52,6.52-6.52ZM193.18,113.88c5.82,0,10.54,4.72,10.54,10.54s-4.72,10.54-10.54,10.54-10.54-4.72-10.54-10.54,4.72-10.54,10.54-10.54ZM331.33,236.54c0,38.38-21.32,57.57-63.96,57.57-18.76,0-33.69-8.53-44.77-25.59l-63.96-95.94c-4.18-4.26-8.27-6.4-12.28-6.4-4.61,0-6.91,2.13-6.91,6.4v121.53h-51.17v-121.53c0-38.38,21.32-57.57,63.96-57.57.24,0,.47.02.71.02-.42-1.29-.66-2.67-.66-4.1,0-7.28,5.9-13.18,13.18-13.18s13.18,5.9,13.18,13.18c0,3.55-1.41,6.77-3.7,9.14-1.98,2.61-3.17,5.86-3.17,9.4,0,8.61,6.98,15.58,15.58,15.58,3.87,0,7.4-1.42,10.13-3.75l63.5,95.25c4.26,4.27,8.36,6.4,12.28,6.4,4.61,0,6.91-2.13,6.91-6.4v-121.53h51.17v121.53Z"/></g></g></g></svg><div><h2>Nerdverso</h2><p>Versão 0.11 (beta)</p></div></div>
+<div class="who"><svg class="logo" viewBox="0 0 405.49 401.14" fill="currentColor" aria-hidden="true"><g><g><g><circle cx="83.25" cy="361.13" r="24.57"/><circle cx="21.02" cy="377.33" r="21.02"/></g><g><path d="M142.69,126.11c-3.73,0-6.76,3.02-6.76,6.76s3.03,6.76,6.76,6.76,6.76-3.03,6.76-6.76-3.03-6.76-6.76-6.76Z"/><path d="M162.04,140c-5.79,0-10.47,4.69-10.47,10.48s4.69,10.48,10.47,10.48,10.48-4.69,10.48-10.48-4.69-10.48-10.48-10.48Z"/><path d="M202.41.02C90.4,1.38,1.85,93.23,4.4,205.21c.7,30.93,8.41,60.12,21.59,86.07-9.64,4.79-16.03,15.13-14.99,26.84,1.15,12.89,11.53,23.32,24.41,24.54,8.18.78,15.69-2.08,21.14-7.14.02.02.03.04.05.06,7.16-7.47,17.43-11.95,28.74-11.33,18.4,1.01,33.44,15.79,34.75,34.17.28,3.94-.06,7.75-.93,11.36-1.56,6.48,1.94,13.16,8.08,15.74,22.73,9.56,47.58,15.06,73.66,15.57,111.79,2.2,203.27-86.33,204.57-198.14C406.79,90.26,315.13-1.36,202.41.02ZM208.8,103.38c3.6,0,6.52,2.92,6.52,6.52s-2.92,6.52-6.52,6.52-6.52-2.92-6.52-6.52,2.92-6.52,6.52-6.52ZM193.18,113.88c5.82,0,10.54,4.72,10.54,10.54s-4.72,10.54-10.54,10.54-10.54-4.72-10.54-10.54,4.72-10.54,10.54-10.54ZM331.33,236.54c0,38.38-21.32,57.57-63.96,57.57-18.76,0-33.69-8.53-44.77-25.59l-63.96-95.94c-4.18-4.26-8.27-6.4-12.28-6.4-4.61,0-6.91,2.13-6.91,6.4v121.53h-51.17v-121.53c0-38.38,21.32-57.57,63.96-57.57.24,0,.47.02.71.02-.42-1.29-.66-2.67-.66-4.1,0-7.28,5.9-13.18,13.18-13.18s13.18,5.9,13.18,13.18c0,3.55-1.41,6.77-3.7,9.14-1.98,2.61-3.17,5.86-3.17,9.4,0,8.61,6.98,15.58,15.58,15.58,3.87,0,7.4-1.42,10.13-3.75l63.5,95.25c4.26,4.27,8.36,6.4,12.28,6.4,4.61,0,6.91-2.13,6.91-6.4v-121.53h51.17v121.53Z"/></g></g></g></svg><div><h2>Nerdverso</h2><p>Versão 0.11.5 (beta)</p></div></div>
 <p class="lbl">Aplicação gratuita, desenvolvida e voltada para a comunidade.</p>
 <a class="tog" href="https://www.instagram.com/nerdverso.loja/" target="_blank" rel="noopener"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="4" y="4" width="20" height="20" rx="6" fill="none" stroke-width="2.2"/><circle cx="14" cy="14" r="4.5" fill="none" stroke-width="2.2"/><circle cx="19.6" cy="8.4" r="1.4" stroke="none"/></svg><span><b>@nerdverso.loja</b><small>Nosso perfil no Instagram</small></span><em>Abrir</em></a>
 <a class="tog" href="https://linktr.ee/nerdverso.loja" target="_blank" rel="noopener"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M12 16a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2M16 12a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2" fill="none" stroke-width="2.2" stroke-linecap="round"/></svg><span><b>linktr.ee/nerdverso.loja</b><small>Contatos e todos os nossos links</small></span><em>Abrir</em></a>
-<a class="tog" href="https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing" target="_blank" rel="noopener"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 4v13m0 0-5-5m5 5 5-5M5 23h18" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Gabaritos para baixar</b><small>PSD, AI e mais formatos</small></span><em>Baixar</em></a>
+<a class="tog" href="https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing" data-pack target="_blank" rel="noopener"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 4v13m0 0-5-5m5 5 5-5M5 23h18" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Gabaritos para baixar</b><small>PSD, AI e mais formatos</small></span><em>Baixar</em></a>
 </div></div></div>
 <div id="pmodal" class="modal" hidden><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="pt" style="width:min(440px,100%)"><div class="mhead"><b id="pt">Imprimir folha</b><button id="pclose" aria-label="Fechar">×</button></div><div class="mbody">
 <div class="pq"><div class="pqi" id="pqi"></div><div><b id="pqt"></b><p id="pqp"></p></div></div>
@@ -295,13 +357,13 @@ const BTN=['sc','rt','bCover','bFit','bCenter','bFH','bFV','bR90','bReset','bgc'
 function tf(){return `translate(${st.cx} ${st.cy}) rotate(${st.rot}) scale(${st.fx*st.s} ${st.fy*st.s})`}
 function draw(){
  syncFoot();const empty=!st;$('empty').style.display=empty?'':'none';BTN.forEach(b=>$(b).disabled=empty);
- if(empty){$('art').innerHTML='';$('ghost').innerHTML='';$('bgr').setAttribute('fill','none');$('bgv').textContent='Sem fundo';return}
+ if(empty){$('art').innerHTML='';$('ghost').innerHTML='';$('bgr').setAttribute('fill','none');$('bgv').textContent='Sem fundo';dzSet(null);return}
  st.dirty=true;
  const im=`<image href="${st.url}" x="${-st.iw/2}" y="${-st.ih/2}" width="${st.iw}" height="${st.ih}" transform="${tf()}"/>`;
  $('art').innerHTML=im;$('ghost').innerHTML=im;
  $('sc').value=Math.round(st.s/base*100);$('vs').textContent=Math.round(st.s/base*100)+'%';
  $('rt').value=Math.round(st.rot);$('vr').textContent=Math.round(st.rot)+'°';
- $('bgc').style.background=st.bg||'repeating-conic-gradient(#d9dde5 0 25%,#fff 0 50%) 0/12px 12px';if(!cp.hidden)cSync();$('bgv').textContent=st.bg?st.bg.toUpperCase():'Sem fundo';$('bNoBg').disabled=!st.bg;$('bgr').setAttribute('fill',st.bg||'none');
+ $('bgc').style.background=st.bg||'repeating-conic-gradient(#d9dde5 0 25%,#fff 0 50%) 0/12px 12px';if(!cp.hidden)cSync();dzSet(st);$('bgv').textContent=st.bg?st.bg.toUpperCase():'Sem fundo';$('bNoBg').disabled=!st.bg;$('bgr').setAttribute('fill',st.bg||'none');
  clearTimeout(tm);tm=setTimeout(analyze,90);
 }
 function loadRaster(f){
@@ -384,7 +446,6 @@ $('bCenter').onclick=()=>{pushH(true);st.cx=W/2;st.cy=H/2;draw()};
 $('bFH').onclick=()=>{pushH(true);st.fx*=-1;draw()};$('bFV').onclick=()=>{pushH(true);st.fy*=-1;draw()};
 $('bR90').onclick=()=>{pushH(true);st.rot=((st.rot+90+180)%360)-180;draw()};
 $('bReset').onclick=()=>{pushH(true);st.rot=0;st.fx=st.fy=1;cover()};
-$('bNew').onclick=()=>$('file').click();
 $('bClear').onclick=()=>{if(st){pushH(true);st=null;editId=null;draw();$('sum').className='';$('sum').textContent='Suba sua arte para começar.';$('alerts').innerHTML='';$('apop').hidden=true;$('sum').removeAttribute('data-has')}};
 $('file').onchange=e=>{loadMany(e.target.files);e.target.value=''};
 
@@ -394,8 +455,16 @@ addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||mode!='edit'||!st||/INPU
  else if(k=='+'||k=='=')st.s=Math.min(base*4,st.s*1.02);else if(k=='-')st.s=Math.max(base*.2,st.s/1.02);
  else if(k=='[')st.rot=Math.max(-180,st.rot-1);else if(k==']')st.rot=Math.min(180,st.rot+1);else h=0;
  if(h){e.preventDefault();draw()}});
-$('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);
-function tab(n){$('pg1').hidden=n!=1;$('pg2').hidden=n!=2;$('t1').classList.toggle('on',n==1);$('t2').classList.toggle('on',n==2)}
+const VT={arte:['Arte',()=>'Área da arte · '+Math.round(W*MM)+' × '+Math.round(H*MM)+' mm'],ajustes:['Ajustes','Tamanho, encaixe e transformações'],fundo:['Fundo','Cor atrás da arte'],dicas:['Dicas','Passo a passo, linhas e atalhos']};
+function setView(v){const p=$('panel');p.dataset.view=v;p.querySelectorAll('.rbtn').forEach(b=>b.classList.toggle('on',b.dataset.v==v));
+ $('pg1').hidden=v=='dicas';$('pg2').hidden=v!='dicas';$('ptitle').textContent=VT[v][0];const s=VT[v][1];$('psub').textContent=typeof s=='function'?s():s}
+$('panel').querySelector('.rail').onclick=e=>{const b=e.target.closest('.rbtn');if(b)setView(b.dataset.v)};
+function dzSet(s){const im=$('dzimg'),m=$('dzmeta');if(!s){im.hidden=true;$('dzt').hidden=false;m.hidden=true;im.removeAttribute('src');delete im.dataset.u;return}
+ if(im.dataset.u!=s.url){im.src=s.url;im.dataset.u=s.url}im.hidden=false;$('dzt').hidden=true;m.hidden=false;
+ const k=(s.name||'Arte')+s.iw+s.ih;if(m.dataset.k!=k){m.dataset.k=k;m.innerHTML='<b></b><span>'+s.iw+' × '+s.ih+' px</span>';m.firstChild.textContent=s.name||'Arte'}}
+const dz=$('dz');dz.onclick=()=>$('file').click();dz.onkeydown=e=>{if(e.key=='Enter'){e.preventDefault();$('file').click()}};$('bLoad').onclick=()=>$('file').click();
+['dragenter','dragover'].forEach(n=>dz.addEventListener(n,e=>{e.preventDefault();dz.classList.add('hot')}));
+['dragleave','drop'].forEach(n=>dz.addEventListener(n,e=>{e.preventDefault();dz.classList.remove('hot');if(n=='drop')loadMany(e.dataTransfer.files)}));
 const mini=$('mini');function buildMini(){mini.setAttribute('viewBox',`-4 -4 ${W+8} ${H+8}`);mini.innerHTML=`<path d="${P.mask}" fill="#fff"/>`+G.map(g=>`<path data-m="${g[0]}" d="${P[g[4]]}" fill="none" stroke="${g[2]}" stroke-width="2.6" ${g[3]?'stroke-dasharray="6 4"':''}/>`).join('')}
 buildMini();
 let sel=null;
@@ -450,7 +519,7 @@ $('pieces').onclick=e=>{const b=e.target.closest('button[data-a]'),c=e.target.cl
  renderAll()};
 $('pieces').onchange=e=>{if(e.target.dataset.a=='name'){const pc=pieces.find(q=>q.id==e.target.closest('.pc').dataset.id);if(pc)pc.name=e.target.value||pc.name}};
 /* ===== EXPORTAR ===== */
-function tabP(n){[1,2].forEach(i=>{$('pp'+i).hidden=i!=n;$('p'+i).classList.toggle('on',i==n)})}
+function tabP(n){[1,2].forEach(i=>{$('pp'+i).hidden=i!=n;$('p'+i).classList.toggle('on',i==n)});$('ptitleP').textContent=n==1?'Peças':'Ajuda';$('psubP').textContent=n==1?'Artes e cópias na folha':'Como usar a folha de impressão'}
 function openX(){if(!total())return toast('A folha está vazia. Envie uma arte do gabarito primeiro.');$('xmodal').hidden=false;xui();renderSheets();$('bGo').focus()}
 const closeX=()=>{$('xmodal').hidden=true;renderSheets()};
 [1,2].forEach(i=>$('p'+i).onclick=()=>tabP(i));$('bExp').onclick=openX;$('xclose').onclick=closeX;
@@ -522,7 +591,7 @@ function setCut(m){
   ({pieces,pages,editId,uid,copies,st,base}=s);if(!pages)pages=[np_()];M=null;psel=null;fresh.clear();
   document.body.dataset.cut=m;buildBoard();buildMini();
   $('bCover').textContent=m=='man'?'Preencher área de corte':'Preencher sangria';$('hSpp').textContent=SPP;$('mlab').textContent=m=='man'?'Corte manual':'Silhouette';
-  const dd=st&&st.dirty;draw();if(st)st.dirty=dd}
+  const dd=st&&st.dirty;draw();if(st)st.dirty=dd;setView($('panel').dataset.view)}
  setMode('edit');$('home').hidden=true}
 document.querySelectorAll('.hcard').forEach(b=>{const m=b.dataset.m,p=m=='man'?PM:PSIL;
  b.querySelector('svg').innerHTML=`<path d="${p.mask}" fill="#fff"${m=='man'?'':' stroke="#ff1a1a" stroke-width="2.5" stroke-dasharray="6 4"'}/><path d="${p.cut}" fill="none" stroke="#111" stroke-width="2.5"/>`;b.onclick=()=>setCut(m)});
@@ -646,6 +715,11 @@ function askPrint(dpi){if(!total())return toast('A folha está vazia. Envie uma 
 const closeP=()=>{$('pmodal').hidden=true},goPrint=yes=>{closeP();printSheets(pdpi,CM=='sil'?{marks:yes}:{cut:yes})};
 $('pyes').onclick=()=>goPrint(true);$('pno').onclick=()=>goPrint(false);$('pclose').onclick=closeP;$('pmodal').onclick=e=>{if(e.target.id=='pmodal')closeP()};
 addEventListener('keydown',e=>{if(e.key=='Escape')closeP()});
+/* termos de uso antes de baixar os gabaritos */
+const PACK='https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing',openT=()=>{$('tmodal').hidden=false;$('tyes').focus()},closeT=()=>{$('tmodal').hidden=true};
+document.addEventListener('click',e=>{const a=e.target.closest('a[data-pack]');if(a){e.preventDefault();openT()}},true);
+$('tyes').onclick=()=>{closeT();const a=document.createElement('a');a.href=PACK;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove()};
+$('tno').onclick=closeT;$('tclose').onclick=closeT;$('tmodal').onclick=e=>{if(e.target.id=='tmodal')closeT()};addEventListener('keydown',e=>{if(e.key=='Escape')closeT()});
 /* imprimir direto, sem exportar */
 async function printSheets(dpi,o={}){
  if(!total())return toast('A folha está vazia. Envie uma arte do gabarito primeiro.');
@@ -690,7 +764,6 @@ addEventListener('paste',e=>{if(!$('home').hidden||!$('xmodal').hidden||!$('abou
  const tx=fs.length?'':cd.getData('text/plain');
  if(/^\s*(<\?xml[^>]*>\s*)?<svg[\s>]/i.test(tx)){e.preventDefault();pasteImg([new File([tx],'Arte colada.svg',{type:'image/svg+xml'})]);return}
  if(pasteImg(fs))e.preventDefault();else if(fs.length)toast('Esse arquivo não é uma imagem que o app abre. Use PNG, JPG ou WEBP.')});
-$('bPaste').onclick=async()=>{try{const its=await navigator.clipboard.read();for(const it of its){const ty=it.types.find(x=>x.startsWith('image/'));if(ty){const b=await it.getType(ty);return pasteImg([new File([b],'image.png',{type:ty})])}}toast('Não há imagem copiada. Copie uma imagem e tente de novo.')}catch(e){toast('O navegador bloqueou o botão. Use Ctrl+V com o app aberto.')}};
 /* reserva espaço para as barras flutuantes: o gabarito nunca fica embaixo delas */
 function fitInsets(){const st=$('stage').getBoundingClientRect(),a=$('pillA').getBoundingClientRect();let bot=16;
  for(const id of['legend','pillZ']){const e=$(id);if(getComputedStyle(e).display=='none')continue;bot=Math.max(bot,st.bottom-e.getBoundingClientRect().top+14)}
@@ -698,7 +771,7 @@ function fitInsets(){const st=$('stage').getBoundingClientRect(),a=$('pillA').ge
 if(window.ResizeObserver){const ro=new ResizeObserver(fitInsets);['pillA','legend','pillZ'].forEach(i=>ro.observe($(i)))}
 addEventListener('resize',fitInsets);fitInsets();
 /* comunidade */
-document.querySelectorAll('.comm-slot').forEach(e=>e.innerHTML='<div class="comm"><b>Gratuito e feito para a comunidade</b><p>Esta aplicação é gratuita, desenvolvida e voltada para a comunidade.</p><a class="dlbtn" href="https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing" target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>Baixar gabaritos (PSD, AI e mais)</a></div>');
+document.querySelectorAll('.comm-slot').forEach(e=>e.innerHTML='<div class="comm"><b>Gratuito e feito para a comunidade</b><p>Esta aplicação é gratuita, desenvolvida e voltada para a comunidade.</p><a class="dlbtn" href="https://drive.google.com/drive/folders/1cEpaTCox96FZ6eFrzL76JIAIA4g_JKQp?usp=sharing" data-pack target="_blank" rel="noopener"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>Baixar gabaritos (PSD, AI e mais)</a></div>');
 /* tema */
 const mq=matchMedia('(prefers-color-scheme:dark)');
 const isDark=()=>{const a=document.documentElement.dataset.theme;return a?a=='dark':mq.matches};
@@ -708,7 +781,7 @@ $('bTheme').onclick=()=>{const n=isDark()?'light':'dark';document.documentElemen
 function segSync(){document.querySelectorAll('#hSeg button').forEach(b=>b.classList.toggle('on',(b.dataset.t=='dark')==isDark()))}
 $('hSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;document.documentElement.dataset.theme=b.dataset.t;try{localStorage.setItem('tema',b.dataset.t)}catch(x){}themeIcon();segSync()};
 mq.addEventListener('change',()=>{themeIcon();segSync()});themeIcon();segSync();
-document.body.dataset.cut='sil';
+document.body.dataset.cut='sil';setView('arte');
 document.body.dataset.mode='edit';
 draw();
 </script></body></html>
